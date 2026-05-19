@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Mail — Documentação</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bg4:#21262d;
+  --border:#30363d; --border2:#21262d;
+  --text:#e6edf3; --text2:#8b949e; --text3:#6e7681;
+  --accent:#f97316; --accent2:#fb923c;
+  --adim:rgba(249,115,22,.12); --adim2:rgba(249,115,22,.05);
+  --blue:#58a6ff; --bdim:rgba(88,166,255,.1);
+  --green:#3fb950; --gdim:rgba(63,185,80,.1);
+  --yellow:#d29922; --ydim:rgba(210,153,34,.1);
+  --red:#f85149; --rdim:rgba(248,81,73,.1);
+  --purple:#bc8cff; --pdim:rgba(188,140,255,.1);
+  --cyan:#39d0d8; --cdim:rgba(57,208,216,.1);
+  --sw:272px;
+  --mono:'JetBrains Mono',monospace;
+  --disp:'Syne',sans-serif;
+  --body:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.7;display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sb{width:var(--sw);background:var(--bg2);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+.sb-logo{padding:22px 20px 16px;border-bottom:1px solid var(--border)}
+.sb-logo .eyebrow{font-family:var(--mono);font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.sb-logo h1{font-family:var(--disp);font-size:18px;font-weight:800;color:var(--text);line-height:1.2}
+.sb-logo p{font-size:11px;color:var(--text3);margin-top:3px}
+.sb-nav{padding:14px 0;flex:1}
+.ns{padding:0 12px;margin-bottom:18px}
+.ns-title{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;padding:0 8px;margin-bottom:5px}
+.ni{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--text2);transition:all .15s;border:none;background:none;width:100%;text-align:left}
+.ni:hover{background:var(--bg3);color:var(--text)}
+.ni.active{background:var(--adim);color:var(--accent)}
+.ni .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.ni .num{font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;max-width:900px;padding:56px 52px 80px}
+.page{display:none}
+.page.active{display:block}
+
+/* HERO */
+.hero{margin-bottom:48px;padding-bottom:36px;border-bottom:1px solid var(--border)}
+.hero-ey{font-family:var(--mono);font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.hero-ey::after{content:'';height:1px;width:36px;background:var(--accent);opacity:.4}
+.hero h1{font-family:var(--disp);font-size:38px;font-weight:800;line-height:1.15;color:var(--text);margin-bottom:12px}
+.hero h1 em{color:var(--accent);font-style:normal}
+.hero h1 em.c{color:var(--cyan)}
+.hero > p{font-size:15px;color:var(--text2);max-width:560px;line-height:1.8}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+.tag{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid}
+.to{color:var(--accent);border-color:rgba(249,115,22,.3);background:var(--adim)}
+.tb{color:var(--blue);border-color:rgba(88,166,255,.3);background:var(--bdim)}
+.tg{color:var(--green);border-color:rgba(63,185,80,.3);background:var(--gdim)}
+.tp{color:var(--purple);border-color:rgba(188,140,255,.3);background:var(--pdim)}
+.tc{color:var(--cyan);border-color:rgba(57,208,216,.3);background:var(--cdim)}
+.ty{color:var(--yellow);border-color:rgba(210,153,34,.3);background:var(--ydim)}
+
+/* TYPOGRAPHY */
+.st{font-family:var(--disp);font-size:23px;font-weight:700;color:var(--text);margin-bottom:8px}
+.ss{font-size:14px;color:var(--text2);margin-bottom:26px;line-height:1.7}
+h3.sub{font-family:var(--disp);font-size:16px;font-weight:600;color:var(--text);margin:26px 0 10px}
+p.bd{font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:14px}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:12px}
+.card-t{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.card p{font-size:13.5px;color:var(--text2);line-height:1.75}
+
+/* CODE */
+.cb{background:var(--bg);border:1px solid var(--border2);border-radius:8px;overflow:hidden;margin:14px 0}
+.ch{display:flex;align-items:center;gap:10px;padding:7px 16px;background:var(--bg3);border-bottom:1px solid var(--border2)}
+.cl{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.cf{font-family:var(--mono);font-size:11px;color:var(--text2);margin-left:auto}
+.cd{padding:14px 18px;overflow-x:auto}
+.cd code{font-family:var(--mono);font-size:12.5px;color:var(--text2);white-space:pre;display:block}
+.kw{color:#ff7b72}.fn{color:#d2a8ff}.st2{color:#a5d6ff}
+.cm{color:#8b949e;font-style:italic}.nm{color:#79c0ff}
+.op{color:#ff7b72}.nc{color:#ffa657}.nb{color:#79c0ff}
+.cy2{color:#39d0d8}.ts{color:#a5d6ff}
+
+/* ANNOTATIONS */
+.ann{display:flex;gap:12px;padding:13px 16px;border-radius:8px;margin:12px 0;font-size:13.5px;line-height:1.7}
+.ai{font-size:15px;flex-shrink:0;margin-top:2px}
+.ab{background:var(--bdim);border:1px solid rgba(88,166,255,.2);color:#a5d6ff}
+.ao{background:var(--adim2);border:1px solid rgba(249,115,22,.2);color:#fdba74}
+.ag{background:var(--gdim);border:1px solid rgba(63,185,80,.2);color:#7ee787}
+.ap{background:var(--pdim);border:1px solid rgba(188,140,255,.2);color:#d2a8ff}
+.ac{background:var(--cdim);border:1px solid rgba(57,208,216,.2);color:#67e8f9}
+.ay{background:var(--ydim);border:1px solid rgba(210,153,34,.2);color:#fbbf24}
+
+/* FLOW */
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:18px 0}
+.fs{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;text-align:center;min-width:100px}
+.fs .fl{font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.fs .fn2{font-weight:500;color:var(--text);font-size:12.5px}
+.fs.ho{border-color:rgba(249,115,22,.4);background:var(--adim2)}.fs.ho .fn2{color:var(--accent)}
+.fs.hc{border-color:rgba(57,208,216,.4);background:var(--cdim)}.fs.hc .fn2{color:var(--cyan)}
+.fs.hg{border-color:rgba(63,185,80,.4);background:var(--gdim)}.fs.hg .fn2{color:var(--green)}
+.fa{color:var(--text3);font-size:18px;padding:0 6px}
+
+/* TABLE */
+.tb2{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.tb2 th{text-align:left;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:7px 12px;border-bottom:1px solid var(--border)}
+.tb2 td{padding:9px 12px;border-bottom:1px solid var(--border2);vertical-align:top}
+.tb2 tr:last-child td{border-bottom:none}
+.tb2 td:first-child{font-family:var(--mono);font-size:12px;color:var(--accent2);width:28%}
+.tb2 td:last-child{color:var(--text2)}
+
+/* ARCH */
+.arch{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;margin:18px 0}
+.ar{display:flex;align-items:center;justify-content:center;gap:6px;margin:6px 0;flex-wrap:wrap}
+.abox{border-radius:8px;padding:9px 16px;font-size:12px;font-family:var(--mono);font-weight:500;text-align:center;border:1px solid;min-width:110px}
+.abl{color:var(--blue);border-color:rgba(88,166,255,.3);background:var(--bdim)}
+.abo{color:var(--accent);border-color:rgba(249,115,22,.3);background:var(--adim)}
+.abg{color:var(--green);border-color:rgba(63,185,80,.3);background:var(--gdim)}
+.abp{color:var(--purple);border-color:rgba(188,140,255,.3);background:var(--pdim)}
+.abc{color:var(--cyan);border-color:rgba(57,208,216,.3);background:var(--cdim)}
+.aby{color:var(--yellow);border-color:rgba(210,153,34,.3);background:var(--ydim)}
+.abr{color:var(--red);border-color:rgba(248,81,73,.3);background:var(--rdim)}
+.aar{color:var(--text3);font-size:18px}
+.alb{font-size:10px;color:var(--text3);text-align:center;font-family:var(--mono);margin-top:3px}
+.acol{display:flex;flex-direction:column;align-items:center;gap:4px}
+
+/* ENDPOINT */
+.ep{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+.mth{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;flex-shrink:0;margin-top:2px}
+.get{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.3)}
+.post{background:rgba(88,166,255,.15);color:var(--blue);border:1px solid rgba(88,166,255,.3)}
+.ep-path{font-family:var(--mono);font-size:13px;color:var(--text);margin-bottom:4px}
+.ep-desc{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* SUMMARY */
+.sbox{background:linear-gradient(135deg,rgba(249,115,22,.08) 0%,rgba(249,115,22,.03) 100%);border:1px solid rgba(249,115,22,.22);border-radius:10px;padding:18px 22px;margin:22px 0}
+.sbox .slabel{font-family:var(--mono);font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.sbox p{font-size:14px;color:var(--text);line-height:1.75}
+
+/* CHECKLIST */
+.cl2{list-style:none;margin:12px 0}
+.cl2 li{display:flex;align-items:flex-start;gap:10px;padding:5px 0;font-size:13.5px;color:var(--text2);line-height:1.6}
+.cl2 li::before{content:'✓';color:var(--green);font-size:12px;margin-top:3px;flex-shrink:0}
+
+/* MISC */
+.divider{height:1px;background:var(--border);margin:34px 0}
+code{font-family:var(--mono);font-size:12px;background:var(--bg3);border:1px solid var(--border2);padding:1px 6px;border-radius:4px;color:var(--accent2)}
+.hamburger{display:none;position:fixed;top:14px;left:14px;z-index:200;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:7px;cursor:pointer;color:var(--text);font-size:16px}
+
+@media(max-width:768px){
+  .sb{transform:translateX(-100%);transition:transform .25s}
+  .sb.open{transform:translateX(0)}
+  .main{margin-left:0;padding:52px 20px 60px}
+  .hamburger{display:flex}
+  .hero h1{font-size:26px}
+}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSB()">☰</button>
+
+<nav class="sb" id="sb">
+  <div class="sb-logo">
+    <div class="eyebrow">Estudo de caso</div>
+    <h1>Quick Mail</h1>
+    <p>AI Email Agent — guia completo</p>
+  </div>
+  <div class="sb-nav">
+
+    <div class="ns">
+      <div class="ns-title">Fundamentos</div>
+      <button class="ni active" onclick="go('overview',this)"><span class="dot" style="background:#f97316"></span>Como o sistema funciona</button>
+      <button class="ni" onclick="go('structure',this)"><span class="dot" style="background:#8b949e"></span>Estrutura de arquivos</button>
+      <button class="ni" onclick="go('startup',this)"><span class="dot" style="background:#d29922"></span>Como iniciar e encerrar</button>
+    </div>
+
+    <div class="ns">
+      <div class="ns-title">Backend Python</div>
+      <button class="ni" onclick="go('gmail',this)"><span class="dot" style="background:#ea4335"></span>gmail_connect.py<span class="num">01</span></button>
+      <button class="ni" onclick="go('agente',this)"><span class="dot" style="background:#3fb950"></span>agente.py<span class="num">02</span></button>
+      <button class="ni" onclick="go('api',this)"><span class="dot" style="background:#58a6ff"></span>api.py<span class="num">03</span></button>
+      <button class="ni" onclick="go('dashboard',this)"><span class="dot" style="background:#f97316"></span>dashboard.py<span class="num">04</span></button>
+    </div>
+
+    <div class="ns">
+      <div class="ns-title">Frontend Next.js</div>
+      <button class="ni" onclick="go('ui-estrutura',this)"><span class="dot" style="background:#39d0d8"></span>ui/ — visão geral</button>
+      <button class="ni" onclick="go('page',this)"><span class="dot" style="background:#bc8cff"></span>page.tsx — interface</button>
+      <button class="ni" onclick="go('shader',this)"><span class="dot" style="background:#d29922"></span>shader — fundo WebGL</button>
+      <button class="ni" onclick="go('globals',this)"><span class="dot" style="background:#8b949e"></span>globals.css</button>
+    </div>
+
+    <div class="ns">
+      <div class="ns-title">Conceitos</div>
+      <button class="ni" onclick="go('oauth',this)"><span class="dot" style="background:#ea4335"></span>OAuth2 e Gmail API</button>
+      <button class="ni" onclick="go('fastapi-conceito',this)"><span class="dot" style="background:#58a6ff"></span>FastAPI e REST</button>
+      <button class="ni" onclick="go('threading-conceito',this)"><span class="dot" style="background:#39d0d8"></span>Processos e threads</button>
+      <button class="ni" onclick="go('prompts-conceito',this)"><span class="dot" style="background:#f97316"></span>Engenharia de prompt</button>
+    </div>
+
+    <div class="ns">
+      <div class="ns-title">Portfolio</div>
+      <button class="ni" onclick="go('portfolio',this)"><span class="dot" style="background:#3fb950"></span>Como apresentar</button>
+    </div>
+
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- OVERVIEW -->
+<div class="page active" id="page-overview">
+  <div class="hero">
+    <div class="hero-ey">Guia do sistema</div>
+    <h1>Como o <em>Quick Mail</em> funciona</h1>
+    <p>Quick Mail é um agente de email inteligente. Ele lê sua caixa do Gmail, classifica cada thread por prioridade usando Claude AI, e permite gerar rascunhos de resposta sob demanda — tudo em uma interface com visual de aurora borealis.</p>
+    <div class="tags">
+      <span class="tag to">Python · FastAPI</span>
+      <span class="tag tc">Next.js 15 · TypeScript</span>
+      <span class="tag tp">Anthropic Claude Haiku</span>
+      <span class="tag tb">Gmail Threads API</span>
+      <span class="tag ty">Three.js · GLSL</span>
+      <span class="tag tg">Tailwind CSS</span>
+    </div>
+  </div>
+
+  <div class="st">Arquitetura do sistema</div>
+  <p class="bd">O sistema é dividido em dois processos independentes que se comunicam via HTTP. O backend Python gerencia toda a lógica e acesso às APIs externas. O frontend Next.js cuida da interface.</p>
+
+  <div class="arch">
+    <div class="ar">
+      <div class="acol"><div class="abox abc">Next.js UI</div><div class="alb">localhost:3000</div></div>
+      <div class="aar">⟷</div>
+      <div class="acol"><div class="abox abl">FastAPI</div><div class="alb">localhost:8000</div></div>
+      <div class="aar">→</div>
+      <div class="acol"><div class="abox abg">agente.py</div><div class="alb">estado em memória</div></div>
+    </div>
+    <div class="ar" style="margin-top:18px">
+      <div class="acol"><div class="abox abr">Gmail API</div><div class="alb">threads reais</div></div>
+      <div class="aar">→</div>
+      <div class="acol"><div class="abox abg">agente.py</div><div class="alb">filtra e analisa</div></div>
+      <div class="aar">→</div>
+      <div class="acol"><div class="abox abp">Claude Haiku</div><div class="alb">classifica e redige</div></div>
+    </div>
+    <div class="ar" style="margin-top:18px">
+      <div class="acol"><div class="abox abo">dashboard.py</div><div class="alb">orquestrador</div></div>
+      <div class="aar">→</div>
+      <div class="acol" style="gap:6px">
+        <div class="abox abl" style="font-size:11px">uvicorn api:app :8000</div>
+        <div class="abox abc" style="font-size:11px">npm run dev :3000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="st">Fluxo de uma operação completa</div>
+  <p class="bd">Do clique do usuário até o email classificado na tela:</p>
+
+  <div class="flow">
+    <div class="fs ho"><div class="fl">usuário</div><div class="fn2">clica Iniciar</div></div>
+    <div class="fa">→</div>
+    <div class="fs hc"><div class="fl">Next.js</div><div class="fn2">POST /api/start</div></div>
+    <div class="fa">→</div>
+    <div class="fs hg"><div class="fl">FastAPI</div><div class="fn2">chama agente</div></div>
+  </div>
+  <div class="flow">
+    <div class="fs hg"><div class="fl">agente</div><div class="fn2">busca threads</div></div>
+    <div class="fa">→</div>
+    <div class="fs"><div class="fl">Gmail API</div><div class="fn2">retorna threads</div></div>
+    <div class="fa">→</div>
+    <div class="fs hg"><div class="fl">agente</div><div class="fn2">envia ao Claude</div></div>
+    <div class="fa">→</div>
+    <div class="fs"><div class="fl">Claude Haiku</div><div class="fn2">JSON de análise</div></div>
+  </div>
+  <div class="flow">
+    <div class="fs hg"><div class="fl">agente</div><div class="fn2">salva em historico[]</div></div>
+    <div class="fa">→</div>
+    <div class="fs hc"><div class="fl">Next.js</div><div class="fn2">GET /api/emails</div></div>
+    <div class="fa">→</div>
+    <div class="fs ho"><div class="fl">usuário</div><div class="fn2">vê os cards</div></div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="st">Responsabilidade de cada arquivo</div>
+
+  <div class="card"><div class="card-t"><span style="color:#ea4335">●</span> gmail_connect.py</div><p>Gerencia autenticação OAuth2 com o Google. Não sabe nada sobre emails, análise ou interface — só sabe como provar ao Google que o programa tem permissão de acesso. Retorna um objeto <code>service</code> que os outros módulos usam.</p></div>
+  <div class="card"><div class="card-t"><span style="color:#3fb950">●</span> agente.py</div><p>O cérebro. Busca threads do Gmail por escopo temporal, filtra as que não precisam de ação, analisa cada uma com Claude Haiku, mantém o histórico em memória, gera respostas sob demanda e verifica se o usuário já respondeu.</p></div>
+  <div class="card"><div class="card-t"><span style="color:#58a6ff">●</span> api.py</div><p>A ponte entre Python e JavaScript. Expõe todas as funções do agente como endpoints HTTP que o frontend pode chamar via <code>fetch()</code>. Valida parâmetros de entrada e trata erros.</p></div>
+  <div class="card"><div class="card-t"><span style="color:#f97316">●</span> dashboard.py</div><p>O ponto de entrada do sistema. Inicia o servidor FastAPI e o servidor Next.js como subprocessos paralelos, abre o navegador automaticamente e garante encerramento limpo dos dois processos ao fechar.</p></div>
+  <div class="card"><div class="card-t"><span style="color:#39d0d8">●</span> ui/</div><p>Aplicação Next.js completa. Renderiza os emails em cards com liquid glass design sobre um fundo animado em WebGL, gerencia estado complexo de UX (dispensar, ordenar, gerar resposta, abrir no Gmail) e faz polling periódico na API.</p></div>
+</div>
+
+<!-- STRUCTURE -->
+<div class="page" id="page-structure">
+  <div class="hero">
+    <div class="hero-ey">Estrutura</div>
+    <h1>Organização dos <em>arquivos</em></h1>
+    <p>Dois sistemas distintos na mesma pasta — backend Python e frontend Next.js — cada um com sua estrutura interna.</p>
+  </div>
+
+  <div class="cb">
+    <div class="ch"><span class="cl">árvore completa</span></div>
+    <div class="cd"><code>ai-email-agent/
+│
+├── gmail_connect.py     <span class="cm"># autenticação OAuth2 com Google</span>
+├── agente.py            <span class="cm"># lógica do agente: busca, análise, loop</span>
+├── api.py               <span class="cm"># servidor FastAPI — ponte Python ↔ JS</span>
+├── dashboard.py         <span class="cm"># orquestrador: inicia API + UI + navegador</span>
+│
+├── .env                 <span class="cm"># ANTHROPIC_API_KEY (nunca no GitHub)</span>
+├── .gitignore           <span class="cm"># exclui segredos e arquivos gerados</span>
+├── requirements.txt     <span class="cm"># dependências Python com versões exatas</span>
+├── run.bat              <span class="cm"># atalho Windows: ativa venv + executa dashboard</span>
+│
+├── credentials.json     <span class="cm"># identidade da app no Google Cloud (não commitado)</span>
+├── token.json           <span class="cm"># token OAuth gerado após autorizar (não commitado)</span>
+│
+└── ui/                  <span class="cm"># aplicação Next.js independente</span>
+    ├── package.json     <span class="cm"># dependências JS: next, react, three, lucide...</span>
+    ├── tsconfig.json    <span class="cm"># regras TypeScript</span>
+    ├── next.config.ts   <span class="cm"># configuração do Next.js</span>
+    ├── postcss.config   <span class="cm"># pipeline do Tailwind CSS 4</span>
+    └── src/
+        ├── app/
+        │   ├── layout.tsx              <span class="cm"># shell HTML: lang, body, metadata</span>
+        │   ├── page.tsx                <span class="cm"># página "/" — toda a UI do Quick Mail</span>
+        │   └── globals.css             <span class="cm"># tokens CSS, reset, animação dismiss</span>
+        ├── components/ui/
+        │   └── animated-shader-background.tsx  <span class="cm"># fundo WebGL Three.js</span>
+        └── lib/
+            └── utils.ts                <span class="cm"># helper cn() para classes Tailwind</span></code></div>
+  </div>
+
+  <div class="ann ao"><span class="ai">⚠</span><span><strong>.env, credentials.json e token.json nunca vão ao GitHub.</strong> Contêm chaves de acesso reais. O .gitignore garante isso automaticamente. Se algum desses arquivos vazar, terceiros podem usar sua conta do Gmail e sua chave Anthropic.</span></div>
+
+  <h3 class="sub">Por que backend e frontend separados?</h3>
+  <p class="bd">Python é ideal para operações de I/O pesado, chamadas a APIs externas e lógica de negócio. JavaScript/React é o padrão para interfaces modernas. Separar os dois permite que cada parte use a melhor ferramenta para sua tarefa — e em produção, podem rodar em servidores diferentes.</p>
+
+  <h3 class="sub">Por que ambiente virtual (.venv)?</h3>
+  <p class="bd">Cada projeto Python pode depender de versões diferentes das mesmas bibliotecas. O <code>.venv</code> isola todas as dependências dentro da pasta do projeto, evitando conflitos com outros projetos na mesma máquina. O <code>npm install</code> do Node.js faz o equivalente com a pasta <code>node_modules/</code>.</p>
+</div>
+
+<!-- STARTUP -->
+<div class="page" id="page-startup">
+  <div class="hero">
+    <div class="hero-ey">Operação</div>
+    <h1>Como <em>iniciar</em> e encerrar</h1>
+    <p>O run.bat dispara uma cadeia de eventos que sobe dois servidores e abre o navegador automaticamente.</p>
+  </div>
+
+  <div class="st">O arquivo run.bat</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">batch</span><span class="cf">run.bat</span></div>
+    <div class="cd"><code>@echo off
+call .venv\Scripts\activate
+python dashboard.py</code></div>
+  </div>
+
+  <table class="tb2">
+    <tr><th>Linha</th><th>O que faz</th></tr>
+    <tr><td>@echo off</td><td>Suprime a exibição dos comandos no terminal — só o output dos programas aparece.</td></tr>
+    <tr><td>call .venv\Scripts\activate</td><td><code>call</code> é necessário no Windows para executar scripts .bat dentro de outro .bat. Ativa o ambiente virtual Python da pasta do projeto.</td></tr>
+    <tr><td>python dashboard.py</td><td>Com o venv ativo, executa o orquestrador — que sobe tudo.</td></tr>
+  </table>
+
+  <div class="divider"></div>
+  <div class="st">O que acontece ao rodar dashboard.py</div>
+
+  <div class="flow">
+    <div class="fs ho"><div class="fl">1</div><div class="fn2">uvicorn sobe</div></div>
+    <div class="fa">→</div>
+    <div class="fs hc"><div class="fl">2</div><div class="fn2">npm run dev</div></div>
+    <div class="fa">→</div>
+    <div class="fs"><div class="fl">3</div><div class="fn2">sleep(5)</div></div>
+    <div class="fa">→</div>
+    <div class="fs hg"><div class="fl">4</div><div class="fn2">abre :3000</div></div>
+  </div>
+
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">dashboard.py</span></div>
+    <div class="cd"><code><span class="cm"># 1 — servidor FastAPI em subprocesso paralelo</span>
+<span class="nm">api_proc</span> <span class="op">=</span> <span class="nm">subprocess</span>.<span class="fn">Popen</span>([
+    <span class="nm">sys</span>.<span class="nm">executable</span>, <span class="st2">"-m"</span>, <span class="st2">"uvicorn"</span>, <span class="st2">"api:app"</span>,
+    <span class="st2">"--host"</span>, <span class="st2">"0.0.0.0"</span>, <span class="st2">"--port"</span>, <span class="st2">"8000"</span>, <span class="st2">"--reload"</span>,
+], <span class="nm">cwd</span><span class="op">=</span><span class="nm">BASE</span>)
+
+<span class="cm"># 2 — Next.js dev server em subprocesso paralelo</span>
+<span class="nm">ui_proc</span> <span class="op">=</span> <span class="nm">subprocess</span>.<span class="fn">Popen</span>(
+    [<span class="nm">npm_cmd</span>, <span class="st2">"run"</span>, <span class="st2">"dev"</span>], <span class="nm">cwd</span><span class="op">=</span><span class="nm">UI_DIR</span>
+)
+
+<span class="cm"># 3 — aguarda compilação do Next.js</span>
+<span class="nm">time</span>.<span class="fn">sleep</span>(<span class="nb">5</span>)
+<span class="nm">webbrowser</span>.<span class="fn">open</span>(<span class="st2">"http://localhost:3000"</span>)
+
+<span class="cm"># 4 — captura Ctrl+C e encerra ambos</span>
+<span class="kw">def</span> <span class="fn">shutdown</span>(<span class="nm">_sig</span>, <span class="nm">_frame</span>):
+    <span class="nm">api_proc</span>.<span class="fn">terminate</span>()
+    <span class="nm">ui_proc</span>.<span class="fn">terminate</span>()
+    <span class="nm">sys</span>.<span class="fn">exit</span>(<span class="nb">0</span>)
+
+<span class="nm">signal</span>.<span class="fn">signal</span>(<span class="nm">signal</span>.<span class="nm">SIGINT</span>, <span class="nm">shutdown</span>)</code></div>
+  </div>
+
+  <table class="tb2">
+    <tr><th>Detalhe</th><th>Por que é assim</th></tr>
+    <tr><td>subprocess.Popen</td><td>Inicia o processo filho sem bloquear o pai. <code>subprocess.run()</code> esperaria terminar antes de continuar — travar o script.</td></tr>
+    <tr><td>sys.executable</td><td>Usa o mesmo Python do venv ativo, garantindo que o uvicorn veja as mesmas dependências instaladas.</td></tr>
+    <tr><td>--reload</td><td>O uvicorn reinicia a API automaticamente ao salvar qualquer arquivo Python. Essencial em desenvolvimento.</td></tr>
+    <tr><td>time.sleep(5)</td><td>O Next.js leva alguns segundos para compilar. Sem a pausa, o browser abriria antes da página estar pronta.</td></tr>
+    <tr><td>signal.SIGINT</td><td>Intercepta o Ctrl+C. Sem isso, o Python encerraria mas os dois subprocessos continuariam rodando invisíveis em background.</td></tr>
+  </table>
+</div>
+
+<!-- GMAIL CONNECT -->
+<div class="page" id="page-gmail">
+  <div class="hero">
+    <div class="hero-ey">Backend — módulo 01</div>
+    <h1><em>gmail_connect</em>.py</h1>
+    <p>Responsabilidade única: provar ao Google que o programa tem permissão para acessar o Gmail. Retorna um objeto de conexão autenticada que os outros módulos usam.</p>
+  </div>
+
+  <div class="st">Por que autenticação é necessária</div>
+  <p class="bd">O Google não permite que qualquer programa acesse sua caixa de email livremente. O protocolo OAuth2 permite que o usuário autorize o acesso sem nunca revelar sua senha ao programa. O programa recebe um token de acesso limitado às permissões declaradas.</p>
+
+  <div class="st">As importações</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">gmail_connect.py</span></div>
+    <div class="cd"><code><span class="kw">from</span> <span class="nm">google.oauth2.credentials</span> <span class="kw">import</span> <span class="nc">Credentials</span>
+<span class="kw">from</span> <span class="nm">google_auth_oauthlib.flow</span> <span class="kw">import</span> <span class="nc">InstalledAppFlow</span>
+<span class="kw">from</span> <span class="nm">google.auth.transport.requests</span> <span class="kw">import</span> <span class="nc">Request</span>
+<span class="kw">from</span> <span class="nm">googleapiclient.discovery</span> <span class="kw">import</span> <span class="fn">build</span>
+<span class="kw">import</span> <span class="nm">os</span></code></div>
+  </div>
+
+  <table class="tb2">
+    <tr><th>Importação</th><th>Função</th></tr>
+    <tr><td>Credentials</td><td>Representa o token de acesso. Pode ser serializado em JSON, salvo em arquivo e reutilizado.</td></tr>
+    <tr><td>InstalledAppFlow</td><td>Conduz o fluxo OAuth2 para apps instalados: abre o navegador, captura o código de autorização, troca por token.</td></tr>
+    <tr><td>Request</td><td>Renova um token expirado usando o refresh_token, sem abrir o navegador de novo.</td></tr>
+    <tr><td>build</td><td>Constrói o cliente da API do Gmail a partir das credenciais. Retorna o objeto <code>service</code>.</td></tr>
+    <tr><td>os</td><td>Verifica a existência do token.json no disco com <code>os.path.exists()</code>.</td></tr>
+  </table>
+
+  <div class="divider"></div>
+  <div class="st">O SCOPE — permissões declaradas</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span></div>
+    <div class="cd"><code><span class="nm">SCOPES</span> <span class="op">=</span> [<span class="st2">'https://www.googleapis.com/auth/gmail.readonly'</span>]</code></div>
+  </div>
+
+  <p class="bd">O Google exige que você declare explicitamente quais permissões está pedindo. <code>gmail.readonly</code> significa acesso de leitura apenas — o agente pode ver emails mas não enviar, apagar ou modificar. Se futuramente precisar de envio, adiciona-se <code>gmail.send</code>.</p>
+
+  <div class="divider"></div>
+  <div class="st">A função conectar_gmail()</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">gmail_connect.py</span></div>
+    <div class="cd"><code><span class="kw">def</span> <span class="fn">conectar_gmail</span>():
+    <span class="nm">creds</span> <span class="op">=</span> <span class="nb">None</span>
+
+    <span class="cm"># Tenta reutilizar token salvo</span>
+    <span class="kw">if</span> <span class="nm">os</span>.<span class="fn">path</span>.<span class="fn">exists</span>(<span class="st2">'token.json'</span>):
+        <span class="nm">creds</span> <span class="op">=</span> <span class="nc">Credentials</span>.<span class="fn">from_authorized_user_file</span>(<span class="st2">'token.json'</span>, <span class="nm">SCOPES</span>)
+
+    <span class="kw">if not</span> <span class="nm">creds</span> <span class="kw">or not</span> <span class="nm">creds</span>.<span class="nm">valid</span>:
+        <span class="kw">if</span> <span class="nm">creds</span> <span class="kw">and</span> <span class="nm">creds</span>.<span class="nm">expired</span> <span class="kw">and</span> <span class="nm">creds</span>.<span class="nm">refresh_token</span>:
+            <span class="nm">creds</span>.<span class="fn">refresh</span>(<span class="nc">Request</span>())       <span class="cm"># renova sem abrir navegador</span>
+        <span class="kw">else</span>:
+            <span class="nm">flow</span> <span class="op">=</span> <span class="nc">InstalledAppFlow</span>.<span class="fn">from_client_secrets_file</span>(
+                <span class="st2">'credentials.json'</span>, <span class="nm">SCOPES</span>
+            )
+            <span class="nm">creds</span> <span class="op">=</span> <span class="nm">flow</span>.<span class="fn">run_local_server</span>(<span class="nm">port</span><span class="op">=</span><span class="nb">0</span>)  <span class="cm"># abre navegador</span>
+
+        <span class="kw">with</span> <span class="fn">open</span>(<span class="st2">'token.json'</span>, <span class="st2">'w'</span>) <span class="kw">as</span> <span class="nm">token</span>:
+            <span class="nm">token</span>.<span class="fn">write</span>(<span class="nm">creds</span>.<span class="fn">to_json</span>())    <span class="cm"># salva para reutilizar</span>
+
+    <span class="nm">service</span> <span class="op">=</span> <span class="fn">build</span>(<span class="st2">'gmail'</span>, <span class="st2">'v1'</span>, <span class="nm">credentials</span><span class="op">=</span><span class="nm">creds</span>)
+    <span class="kw">return</span> <span class="nm">service</span></code></div>
+  </div>
+
+  <h3 class="sub">Fluxo de decisão</h3>
+  <div class="flow">
+    <div class="fs"><div class="fl">token.json</div><div class="fn2">existe?</div></div>
+    <div class="fa">↓ sim</div>
+    <div class="fs"><div class="fl">token</div><div class="fn2">ainda válido?</div></div>
+    <div class="fa">↓ expirado</div>
+    <div class="fs hg"><div class="fl">refresh</div><div class="fn2">silencioso</div></div>
+  </div>
+  <div class="flow">
+    <div class="fs ho"><div class="fl">não existe</div><div class="fn2">1ª vez</div></div>
+    <div class="fa">→</div>
+    <div class="fs"><div class="fl">navegador</div><div class="fn2">OAuth flow</div></div>
+    <div class="fa">→</div>
+    <div class="fs hg"><div class="fl">salva</div><div class="fn2">token.json</div></div>
+    <div class="fa">→</div>
+    <div class="fs hc"><div class="fl">retorna</div><div class="fn2">service</div></div>
+  </div>
+
+  <div class="sbox">
+    <div class="slabel">Resumo</div>
+    <p>Pega o token salvo ou solicita um novo via navegador, renova automaticamente quando expira, e retorna um objeto <code>service</code> que representa acesso autenticado ao Gmail. Todos os outros módulos que precisam do Gmail chamam esta função.</p>
+  </div>
+</div>
+
+<!-- AGENTE -->
+<div class="page" id="page-agente">
+  <div class="hero">
+    <div class="hero-ey">Backend — módulo 02</div>
+    <h1><em>agente</em>.py</h1>
+    <p>O cérebro do sistema. Busca threads do Gmail filtradas por período, analisa cada uma com Claude Haiku, mantém o histórico em memória e gerencia o loop de verificação em background.</p>
+  </div>
+
+  <div class="st">Estado global e inicialização</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">agente.py</span></div>
+    <div class="cd"><code><span class="kw">import</span> <span class="nm">json</span>, <span class="nm">time</span>, <span class="nm">threading</span>
+<span class="kw">from</span> <span class="nm">datetime</span> <span class="kw">import</span> <span class="nc">datetime</span>
+<span class="kw">from</span> <span class="nm">gmail_connect</span> <span class="kw">import</span> <span class="fn">conectar_gmail</span>
+<span class="kw">from</span> <span class="nm">anthropic</span> <span class="kw">import</span> <span class="nc">Anthropic</span>
+<span class="kw">from</span> <span class="nm">dotenv</span> <span class="kw">import</span> <span class="fn">load_dotenv</span>
+
+<span class="fn">load_dotenv</span>()       <span class="cm"># lê .env → disponibiliza ANTHROPIC_API_KEY</span>
+<span class="nm">client</span> <span class="op">=</span> <span class="nc">Anthropic</span>()  <span class="cm"># abre conexão com a API do Claude</span>
+
+<span class="cm"># Estado compartilhado — acessado pela thread do loop e pelo FastAPI</span>
+<span class="nm">historico</span> <span class="op">=</span> []            <span class="cm"># emails analisados</span>
+<span class="nm">_ids_processados</span> <span class="op">=</span> <span class="fn">set</span>()  <span class="cm"># IDs já vistos — busca O(1), sem duplicatas</span>
+<span class="nm">rodando</span> <span class="op">=</span> <span class="nb">False</span>            <span class="cm"># interruptor do loop</span>
+<span class="nm">thread_agente</span> <span class="op">=</span> <span class="nb">None</span>       <span class="cm"># referência à thread em execução</span>
+
+<span class="cm"># Mapa de escopos temporais em segundos</span>
+<span class="nm">ESCOPO_SEGUNDOS</span> <span class="op">=</span> {
+    <span class="st2">"hora"</span>:   <span class="nb">3600</span>,
+    <span class="st2">"dia"</span>:    <span class="nb">86400</span>,
+    <span class="st2">"semana"</span>: <span class="nb">604800</span>,
+}</code></div>
+  </div>
+
+  <div class="ann ab"><span class="ai">💡</span><span><strong>Por que <code>set</code> para _ids_processados?</strong> Um set nunca contém duplicatas e a verificação de pertinência (<code>x in set</code>) é O(1) — constante, independente do tamanho. Uma lista exigiria percorrer todos os elementos a cada verificação, ficando mais lento conforme cresce.</span></div>
+
+  <div class="divider"></div>
+  <div class="st">processar_emails() — o pipeline principal</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">agente.py</span></div>
+    <div class="cd"><code><span class="kw">def</span> <span class="fn">processar_emails</span>(<span class="nm">quantidade</span><span class="op">=</span><span class="nb">5</span>, <span class="nm">escopo</span><span class="op">=</span><span class="st2">"dia"</span>):
+    <span class="kw">global</span> <span class="nm">historico</span>, <span class="nm">_ids_processados</span>
+
+    <span class="cm"># Calcula o timestamp de início do período</span>
+    <span class="nm">after_epoch</span> <span class="op">=</span> <span class="fn">int</span>(<span class="nm">time</span>.<span class="fn">time</span>()) <span class="op">-</span> <span class="nm">ESCOPO_SEGUNDOS</span>.<span class="fn">get</span>(<span class="nm">escopo</span>, <span class="nb">86400</span>)
+
+    <span class="nm">service</span> <span class="op">=</span> <span class="fn">conectar_gmail</span>()
+    <span class="nm">resultado</span> <span class="op">=</span> <span class="nm">service</span>.<span class="fn">users</span>().<span class="fn">threads</span>().<span class="fn">list</span>(
+        <span class="nm">userId</span><span class="op">=</span><span class="st2">'me'</span>,
+        <span class="nm">maxResults</span><span class="op">=</span><span class="nm">quantidade</span>,
+        <span class="nm">labelIds</span><span class="op">=</span>[<span class="st2">'INBOX'</span>],
+        <span class="nm">q</span><span class="op">=</span><span class="st2">f"after:{after_epoch}"</span>,     <span class="cm"># filtra por período na query</span>
+    ).<span class="fn">execute</span>()
+
+    <span class="kw">for</span> <span class="nm">t</span> <span class="kw">in</span> <span class="nm">resultado</span>.<span class="fn">get</span>(<span class="st2">'threads'</span>, []):
+        <span class="kw">if</span> <span class="nm">t</span>[<span class="st2">'id'</span>] <span class="kw">in</span> <span class="nm">_ids_processados</span>:
+            <span class="kw">continue</span>                     <span class="cm"># já processado — pula</span>
+
+        <span class="nm">thread_data</span> <span class="op">=</span> <span class="nm">service</span>.<span class="fn">users</span>().<span class="fn">threads</span>().<span class="fn">get</span>(
+            <span class="nm">userId</span><span class="op">=</span><span class="st2">'me'</span>, <span class="nm">id</span><span class="op">=</span><span class="nm">t</span>[<span class="st2">'id'</span>], <span class="nm">format</span><span class="op">=</span><span class="st2">'full'</span>
+        ).<span class="fn">execute</span>()
+
+        <span class="nm">messages</span> <span class="op">=</span> <span class="nm">thread_data</span>.<span class="fn">get</span>(<span class="st2">'messages'</span>, [])
+        <span class="kw">if not</span> <span class="nm">messages</span>: <span class="kw">continue</span>
+
+        <span class="cm"># Ignora threads onde o usuário já respondeu por último</span>
+        <span class="nm">last_labels</span> <span class="op">=</span> <span class="nm">messages</span>[<span class="op">-</span><span class="nb">1</span>].<span class="fn">get</span>(<span class="st2">'labelIds'</span>, [])
+        <span class="kw">if</span> <span class="st2">'SENT'</span> <span class="kw">in</span> <span class="nm">last_labels</span>: <span class="kw">continue</span>
+
+        <span class="cm"># Extrai dados do primeiro email da thread</span>
+        <span class="nm">first</span> <span class="op">=</span> <span class="nm">messages</span>[<span class="nb">0</span>]
+        <span class="nm">headers</span> <span class="op">=</span> <span class="nm">first</span>[<span class="st2">'payload'</span>][<span class="st2">'headers'</span>]
+        <span class="nm">assunto</span> <span class="op">=</span> <span class="fn">next</span>((<span class="nm">h</span>[<span class="st2">'value'</span>] <span class="kw">for</span> <span class="nm">h</span> <span class="kw">in</span> <span class="nm">headers</span> <span class="kw">if</span> <span class="nm">h</span>[<span class="st2">'name'</span>] <span class="op">==</span> <span class="st2">'Subject'</span>), <span class="st2">'Sem assunto'</span>)
+        <span class="nm">remetente</span> <span class="op">=</span> <span class="fn">next</span>((<span class="nm">h</span>[<span class="st2">'value'</span>] <span class="kw">for</span> <span class="nm">h</span> <span class="kw">in</span> <span class="nm">headers</span> <span class="kw">if</span> <span class="nm">h</span>[<span class="st2">'name'</span>] <span class="op">==</span> <span class="st2">'From'</span>), <span class="st2">'Desconhecido'</span>)
+        <span class="nm">trecho</span> <span class="op">=</span> <span class="nm">first</span>.<span class="fn">get</span>(<span class="st2">'snippet'</span>, <span class="st2">''</span>)
+
+        <span class="nm">analise</span> <span class="op">=</span> <span class="fn">analisar_email</span>(<span class="nm">remetente</span>, <span class="nm">assunto</span>, <span class="nm">trecho</span>)
+
+        <span class="nm">historico</span>.<span class="fn">append</span>({
+            <span class="st2">"id"</span>: <span class="nm">t</span>[<span class="st2">'id'</span>],
+            <span class="st2">"timestamp"</span>: <span class="nc">datetime</span>.<span class="fn">now</span>().<span class="fn">strftime</span>(<span class="st2">"%d/%m %H:%M"</span>),
+            <span class="st2">"internalDate"</span>: <span class="fn">int</span>(<span class="nm">first</span>.<span class="fn">get</span>(<span class="st2">'internalDate'</span>, <span class="nb">0</span>)),
+            <span class="st2">"remetente"</span>: <span class="nm">remetente</span>, <span class="st2">"assunto"</span>: <span class="nm">assunto</span>, <span class="st2">"trecho"</span>: <span class="nm">trecho</span>,
+            <span class="st2">"resposta_sugerida"</span>: <span class="nb">None</span>,
+            <span class="op">**</span><span class="nm">analise</span>,       <span class="cm"># expande prioridade, categoria, acao_sugerida</span>
+        })
+        <span class="nm">_ids_processados</span>.<span class="fn">add</span>(<span class="nm">t</span>[<span class="st2">'id'</span>])</code></div>
+  </div>
+
+  <div class="ann ab"><span class="ai">💡</span><span><strong>Por que threads e não mensagens?</strong> Uma conversa de email tem várias mensagens. Trabalhar com a thread inteira evita mostrar o mesmo assunto múltiplas vezes. O filtro <code>'SENT' in last_labels</code> detecta se a última mensagem da thread foi enviada pelo usuário — se sim, ele já respondeu e não precisa ser lembrado.</span></div>
+
+  <div class="ann ap"><span class="ai">🔍</span><span><strong>O que é <code>**analise</code>?</strong> O operador <code>**</code> desempacota um dicionário dentro de outro. Se <code>analise = {"prioridade": "alta", "categoria": "trabalho"}</code>, então <code>{**analise}</code> adiciona essas chaves diretamente no dicionário maior, sem escrever cada campo manualmente.</span></div>
+
+  <div class="divider"></div>
+  <div class="st">analisar_email() — classificação com Claude</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">agente.py</span></div>
+    <div class="cd"><code><span class="kw">def</span> <span class="fn">analisar_email</span>(<span class="nm">remetente</span>, <span class="nm">assunto</span>, <span class="nm">trecho</span>):
+    <span class="nm">response</span> <span class="op">=</span> <span class="nm">client</span>.<span class="nm">messages</span>.<span class="fn">create</span>(
+        <span class="nm">model</span><span class="op">=</span><span class="st2">"claude-haiku-4-5-20251001"</span>,  <span class="cm"># rápido e econômico</span>
+        <span class="nm">max_tokens</span><span class="op">=</span><span class="nb">200</span>,                     <span class="cm"># JSON pequeno — 200 suficiente</span>
+        <span class="nm">messages</span><span class="op">=</span>[{<span class="st2">"role"</span>: <span class="st2">"user"</span>, <span class="st2">"content"</span>: <span class="st2">f"""..."""</span>}]
+    )
+    <span class="nm">texto</span> <span class="op">=</span> <span class="nm">response</span>.<span class="nm">content</span>[<span class="nb">0</span>].<span class="nm">text</span>
+    <span class="nm">limpo</span> <span class="op">=</span> <span class="nm">texto</span>.<span class="fn">replace</span>(<span class="st2">"```json"</span>, <span class="st2">""</span>).<span class="fn">replace</span>(<span class="st2">"```"</span>, <span class="st2">""</span>).<span class="fn">strip</span>()
+    <span class="kw">return</span> <span class="nm">json</span>.<span class="fn">loads</span>(<span class="nm">limpo</span>)  <span class="cm"># string → dicionário Python</span></code></div>
+  </div>
+
+  <div class="ann ao"><span class="ai">⚡</span><span><strong>Por que Claude Haiku?</strong> Haiku é o modelo mais rápido e barato da família Claude — processa tokens a alta velocidade por fração do custo do Sonnet. Classificação de emails é uma tarefa de raciocínio simples; não precisa do modelo mais capaz. Em um sistema que processa dezenas de emails, a diferença de custo é significativa.</span></div>
+
+  <div class="divider"></div>
+  <div class="st">gerar_resposta() — sob demanda</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">agente.py</span></div>
+    <div class="cd"><code><span class="kw">def</span> <span class="fn">gerar_resposta</span>(<span class="nm">email_id</span>):
+    <span class="nm">email</span> <span class="op">=</span> <span class="fn">next</span>((<span class="nm">e</span> <span class="kw">for</span> <span class="nm">e</span> <span class="kw">in</span> <span class="nm">historico</span> <span class="kw">if</span> <span class="nm">e</span>[<span class="st2">'id'</span>] <span class="op">==</span> <span class="nm">email_id</span>), <span class="nb">None</span>)
+    <span class="kw">if not</span> <span class="nm">email</span>: <span class="kw">return</span> <span class="nb">None</span>
+
+    <span class="nm">response</span> <span class="op">=</span> <span class="nm">client</span>.<span class="nm">messages</span>.<span class="fn">create</span>(
+        <span class="nm">model</span><span class="op">=</span><span class="st2">"claude-haiku-4-5-20251001"</span>,
+        <span class="nm">max_tokens</span><span class="op">=</span><span class="nb">500</span>,
+        <span class="nm">messages</span><span class="op">=</span>[{<span class="st2">"role"</span>: <span class="st2">"user"</span>, <span class="st2">"content"</span>: <span class="st2">f"""
+Escreva uma resposta profissional e personalizada para este email.
+Responda apenas com o corpo da resposta, sem assunto ou saudações genéricas.
+
+De: {email['remetente']}
+Assunto: {email['assunto']}
+Conteúdo: {email['trecho']}
+Ação sugerida: {email.get('acao_sugerida', '')}"""</span>}]
+    )
+    <span class="nm">resposta</span> <span class="op">=</span> <span class="nm">response</span>.<span class="nm">content</span>[<span class="nb">0</span>].<span class="nm">text</span>.<span class="fn">strip</span>()
+    <span class="nm">email</span>[<span class="st2">'resposta_sugerida'</span>] <span class="op">=</span> <span class="nm">resposta</span>  <span class="cm"># atualiza o histórico em memória</span>
+    <span class="kw">return</span> <span class="nm">resposta</span></code></div>
+  </div>
+
+  <p class="bd">A geração de resposta é separada da análise por dois motivos: a maioria dos emails (alertas, notificações, spam) não precisa de resposta, evitando chamadas à API desnecessárias. E quando gerada, o contexto da <code>acao_sugerida</code> (calculada na análise) guia a qualidade da resposta.</p>
+
+  <div class="divider"></div>
+  <div class="st">Loop, threads e controle</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">agente.py</span></div>
+    <div class="cd"><code><span class="kw">def</span> <span class="fn">loop_agente</span>(<span class="nm">intervalo</span><span class="op">=</span><span class="nb">60</span>, <span class="nm">escopo</span><span class="op">=</span><span class="st2">"dia"</span>):
+    <span class="kw">global</span> <span class="nm">rodando</span>
+    <span class="kw">while</span> <span class="nm">rodando</span>:
+        <span class="fn">processar_emails</span>(<span class="nm">escopo</span><span class="op">=</span><span class="nm">escopo</span>)
+        <span class="nm">time</span>.<span class="fn">sleep</span>(<span class="nm">intervalo</span>)   <span class="cm"># aguarda antes de verificar de novo</span>
+
+<span class="kw">def</span> <span class="fn">iniciar</span>(<span class="nm">intervalo</span><span class="op">=</span><span class="nb">60</span>, <span class="nm">escopo</span><span class="op">=</span><span class="st2">"dia"</span>):
+    <span class="kw">global</span> <span class="nm">rodando</span>, <span class="nm">thread_agente</span>
+    <span class="kw">if not</span> <span class="nm">rodando</span>:
+        <span class="nm">rodando</span> <span class="op">=</span> <span class="nb">True</span>
+        <span class="nm">thread_agente</span> <span class="op">=</span> <span class="nm">threading</span>.<span class="nc">Thread</span>(
+            <span class="nm">target</span><span class="op">=</span><span class="nm">loop_agente</span>, <span class="nm">args</span><span class="op">=</span>(<span class="nm">intervalo</span>, <span class="nm">escopo</span>), <span class="nm">daemon</span><span class="op">=</span><span class="nb">True</span>
+        )
+        <span class="nm">thread_agente</span>.<span class="fn">start</span>()
+
+<span class="kw">def</span> <span class="fn">parar</span>():
+    <span class="kw">global</span> <span class="nm">rodando</span>
+    <span class="nm">rodando</span> <span class="op">=</span> <span class="nb">False</span>   <span class="cm"># o loop termina na próxima iteração</span></code></div>
+  </div>
+
+  <div class="ann ap"><span class="ai">🔮</span><span><strong><code>daemon=True</code></strong> faz a thread depender do processo principal. Quando o uvicorn encerra, a thread do agente morre automaticamente — sem processos zumbis rodando em background invisíveis.</span></div>
+
+  <div class="sbox">
+    <div class="slabel">Resumo</div>
+    <p>Busca threads filtradas por período, ignora as já respondidas, analisa com Claude Haiku em JSON estruturado, salva no histórico global e repete em loop numa thread paralela. Funções separadas para análise e geração de resposta otimizam custo.</p>
+  </div>
+</div>
+
+<!-- API -->
+<div class="page" id="page-api">
+  <div class="hero">
+    <div class="hero-ey">Backend — módulo 03</div>
+    <h1><em>api</em>.py</h1>
+    <p>Servidor FastAPI que expõe todas as funções do agente como endpoints HTTP. É a ponte entre o frontend JavaScript e o backend Python — sem ele, os dois lados não conseguem se comunicar.</p>
+  </div>
+
+  <div class="st">Configuração e CORS</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">api.py</span></div>
+    <div class="cd"><code><span class="kw">from</span> <span class="nm">typing</span> <span class="kw">import</span> <span class="nc">Literal</span>
+<span class="kw">from</span> <span class="nm">fastapi</span> <span class="kw">import</span> <span class="nc">FastAPI</span>, <span class="nc">HTTPException</span>, <span class="nc">Path</span>
+<span class="kw">from</span> <span class="nm">fastapi.middleware.cors</span> <span class="kw">import</span> <span class="nc">CORSMiddleware</span>
+<span class="kw">from</span> <span class="nm">pydantic</span> <span class="kw">import</span> <span class="nc">BaseModel</span>, <span class="nc">Field</span>
+<span class="kw">import</span> <span class="nm">agente</span>
+
+<span class="nm">app</span> <span class="op">=</span> <span class="nc">FastAPI</span>(<span class="nm">title</span><span class="op">=</span><span class="st2">"Quick Mail API"</span>)
+
+<span class="nm">app</span>.<span class="fn">add_middleware</span>(
+    <span class="nc">CORSMiddleware</span>,
+    <span class="nm">allow_origins</span><span class="op">=</span>[<span class="st2">"http://localhost:3000"</span>, <span class="st2">"http://127.0.0.1:3000"</span>],
+    <span class="nm">allow_methods</span><span class="op">=</span>[<span class="st2">"GET"</span>, <span class="st2">"POST"</span>],
+    <span class="nm">allow_headers</span><span class="op">=</span>[<span class="st2">"Content-Type"</span>],
+)</code></div>
+  </div>
+
+  <div class="ann ao"><span class="ai">🔒</span><span><strong>O que é CORS?</strong> Browsers bloqueiam por segurança requisições JavaScript de uma origem para outra. Como Next.js roda em <code>:3000</code> e FastAPI em <code>:8000</code>, são origens diferentes. O middleware CORS responde aos browsers com cabeçalhos que autorizam essas origens específicas.</span></div>
+
+  <div class="divider"></div>
+  <div class="st">Validação com Pydantic</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">api.py</span></div>
+    <div class="cd"><code><span class="kw">class</span> <span class="nc">StartRequest</span>(<span class="nc">BaseModel</span>):
+    <span class="nm">quantidade</span>: <span class="nb">int</span> <span class="op">=</span> <span class="nc">Field</span>(<span class="nm">default</span><span class="op">=</span><span class="nb">5</span>, <span class="nm">ge</span><span class="op">=</span><span class="nb">1</span>, <span class="nm">le</span><span class="op">=</span><span class="nb">50</span>)
+    <span class="nm">intervalo</span>: <span class="nb">int</span> <span class="op">=</span> <span class="nc">Field</span>(<span class="nm">default</span><span class="op">=</span><span class="nb">60</span>, <span class="nm">ge</span><span class="op">=</span><span class="nb">30</span>, <span class="nm">le</span><span class="op">=</span><span class="nb">3600</span>)
+    <span class="nm">escopo</span>: <span class="nc">Literal</span>[<span class="st2">"hora"</span>, <span class="st2">"dia"</span>, <span class="st2">"semana"</span>] <span class="op">=</span> <span class="st2">"dia"</span></code></div>
+  </div>
+
+  <p class="bd"><code>ge</code> = greater or equal, <code>le</code> = less or equal. Se o frontend mandar <code>quantidade: 200</code>, o FastAPI rejeita automaticamente com erro 422 — sem precisar escrever nenhuma validação manual. <code>Literal</code> do typing restringe o campo a exatamente esses três valores.</p>
+
+  <div class="divider"></div>
+  <div class="st">Todos os endpoints</div>
+
+  <div class="ep"><span class="mth get">GET</span><div><div class="ep-path">/api/status</div><div class="ep-desc">Retorna <code>{"running": bool, "total": int}</code>. O frontend faz polling neste endpoint para atualizar o indicador de status na barra superior.</div></div></div>
+
+  <div class="ep"><span class="mth get">GET</span><div><div class="ep-path">/api/emails</div><div class="ep-desc">Retorna o array <code>historico</code> completo do agente. O frontend chama a cada intervalo configurado para manter a lista de cards atualizada.</div></div></div>
+
+  <div class="ep"><span class="mth post">POST</span><div><div class="ep-path">/api/start</div><div class="ep-desc">Aceita <code>StartRequest</code> no body. Processa emails imediatamente, depois inicia o loop em background. Retorna quantos emails novos foram encontrados.</div></div></div>
+
+  <div class="ep"><span class="mth post">POST</span><div><div class="ep-path">/api/stop</div><div class="ep-desc">Para o loop do agente definindo <code>rodando = False</code>. O histórico permanece em memória — emails continuam visíveis.</div></div></div>
+
+  <div class="ep"><span class="mth get">GET</span><div><div class="ep-path">/api/emails/{email_id}/respondido</div><div class="ep-desc">Consulta o Gmail para verificar se a thread foi respondida (última mensagem tem label SENT). O frontend faz polling aqui após o usuário abrir o rascunho no Gmail.</div></div></div>
+
+  <div class="ep"><span class="mth post">POST</span><div><div class="ep-path">/api/emails/{email_id}/resposta</div><div class="ep-desc">Chama <code>agente.gerar_resposta()</code> para o ID especificado. Retorna o texto do rascunho gerado pelo Claude. Chamado apenas no clique do usuário.</div></div></div>
+
+  <div class="ann ab"><span class="ai">💡</span><span>O FastAPI gera documentação interativa automática em <code>http://localhost:8000/docs</code> enquanto o servidor está rodando. Você pode testar todos os endpoints direto no browser sem precisar de curl ou Postman.</span></div>
+
+  <div class="sbox">
+    <div class="slabel">Resumo</div>
+    <p>Expõe o agente Python como serviço HTTP com 6 endpoints. Configura CORS para o Next.js, valida entradas com Pydantic e propaga exceções como respostas HTTP estruturadas.</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="page" id="page-dashboard">
+  <div class="hero">
+    <div class="hero-ey">Backend — módulo 04</div>
+    <h1><em>dashboard</em>.py</h1>
+    <p>O ponto de entrada do sistema. Inicia o servidor FastAPI e o servidor Next.js como subprocessos paralelos, abre o navegador e garante encerramento limpo ao fechar.</p>
+  </div>
+
+  <p class="bd">Este arquivo não tem interface visual. Sua única função é orquestrar os dois processos que compõem o sistema — garantindo que subam na ordem certa e sejam encerrados corretamente.</p>
+
+  <div class="cb">
+    <div class="ch"><span class="cl">python</span><span class="cf">dashboard.py — completo</span></div>
+    <div class="cd"><code><span class="kw">import</span> <span class="nm">subprocess</span>, <span class="nm">sys</span>, <span class="nm">os</span>, <span class="nm">time</span>, <span class="nm">webbrowser</span>, <span class="nm">signal</span>
+
+<span class="nm">BASE</span> <span class="op">=</span> <span class="nm">os</span>.<span class="fn">path</span>.<span class="fn">dirname</span>(<span class="nm">os</span>.<span class="fn">path</span>.<span class="fn">abspath</span>(<span class="nb">__file__</span>))  <span class="cm"># pasta do próprio arquivo</span>
+<span class="nm">UI_DIR</span> <span class="op">=</span> <span class="nm">os</span>.<span class="fn">path</span>.<span class="fn">join</span>(<span class="nm">BASE</span>, <span class="st2">"ui"</span>)
+<span class="nm">npm_cmd</span> <span class="op">=</span> <span class="st2">"npm.cmd"</span> <span class="kw">if</span> <span class="nm">sys</span>.<span class="nm">platform</span> <span class="op">==</span> <span class="st2">"win32"</span> <span class="kw">else</span> <span class="st2">"npm"</span>  <span class="cm"># compatibilidade Windows</span>
+
+<span class="kw">def</span> <span class="fn">main</span>():
+    <span class="nm">api_proc</span> <span class="op">=</span> <span class="nm">subprocess</span>.<span class="fn">Popen</span>([
+        <span class="nm">sys</span>.<span class="nm">executable</span>, <span class="st2">"-m"</span>, <span class="st2">"uvicorn"</span>, <span class="st2">"api:app"</span>,
+        <span class="st2">"--host"</span>, <span class="st2">"0.0.0.0"</span>, <span class="st2">"--port"</span>, <span class="st2">"8000"</span>, <span class="st2">"--reload"</span>,
+    ], <span class="nm">cwd</span><span class="op">=</span><span class="nm">BASE</span>)
+
+    <span class="nm">ui_proc</span> <span class="op">=</span> <span class="nm">subprocess</span>.<span class="fn">Popen</span>([<span class="nm">npm_cmd</span>, <span class="st2">"run"</span>, <span class="st2">"dev"</span>], <span class="nm">cwd</span><span class="op">=</span><span class="nm">UI_DIR</span>)
+
+    <span class="nm">time</span>.<span class="fn">sleep</span>(<span class="nb">5</span>)
+    <span class="nm">webbrowser</span>.<span class="fn">open</span>(<span class="st2">"http://localhost:3000"</span>)
+
+    <span class="kw">def</span> <span class="fn">shutdown</span>(<span class="nm">_sig</span>, <span class="nm">_frame</span>):
+        <span class="nm">api_proc</span>.<span class="fn">terminate</span>()
+        <span class="nm">ui_proc</span>.<span class="fn">terminate</span>()
+        <span class="nm">sys</span>.<span class="fn">exit</span>(<span class="nb">0</span>)
+
+    <span class="nm">signal</span>.<span class="fn">signal</span>(<span class="nm">signal</span>.<span class="nm">SIGINT</span>, <span class="nm">shutdown</span>)
+    <span class="kw">if</span> <span class="fn">hasattr</span>(<span class="nm">signal</span>, <span class="st2">"SIGTERM"</span>):
+        <span class="nm">signal</span>.<span class="fn">signal</span>(<span class="nm">signal</span>.<span class="nm">SIGTERM</span>, <span class="nm">shutdown</span>)
+
+    <span class="nm">api_proc</span>.<span class="fn">wait</span>()  <span class="cm"># mantém o script vivo enquanto a API roda</span></code></div>
+  </div>
+
+  <div class="ann ac"><span class="ai">✦</span><span><code>os.path.abspath(__file__)</code> retorna o caminho absoluto do próprio script. Isso garante que <code>BASE</code> e <code>UI_DIR</code> funcionem corretamente independente de onde o usuário executou o comando — seja na pasta do projeto ou em qualquer outro diretório.</span></div>
+</div>
+
+<!-- UI ESTRUTURA -->
+<div class="page" id="page-ui-estrutura">
+  <div class="hero">
+    <div class="hero-ey">Frontend — visão geral</div>
+    <h1>ui/ — <em class="c">Next.js 15</em></h1>
+    <p>Aplicação React completa com TypeScript, Tailwind CSS e Three.js. Roda em localhost:3000 e consome a API Python via fetch.</p>
+  </div>
+
+  <div class="st">Stack e dependências</div>
+  <table class="tb2">
+    <tr><th>Biblioteca</th><th>Versão</th><th>Função no projeto</th></tr>
+    <tr><td>next</td><td>^15.3.0</td><td>Framework React. Roteamento por arquivo, SSR, bundling otimizado.</td></tr>
+    <tr><td>react / react-dom</td><td>^19.0.0</td><td>Biblioteca de UI. Componentes, estado (useState), efeitos (useEffect).</td></tr>
+    <tr><td>typescript</td><td>^5.8.3</td><td>Tipagem estática. Interfaces como <code>Email</code> garantem shape dos dados da API.</td></tr>
+    <tr><td>tailwindcss</td><td>^4.1.5</td><td>CSS utilitário. Classes como <code>bg-white/[0.13]</code> diretamente no JSX.</td></tr>
+    <tr><td>three</td><td>^0.175.0</td><td>WebGL 3D. Renderiza o fundo animado com shader GLSL na GPU.</td></tr>
+    <tr><td>lucide-react</td><td>^0.503.0</td><td>Ícones SVG como componentes React: Mail, Play, Square, Copy etc.</td></tr>
+    <tr><td>tw-animate-css</td><td>^1.3.4</td><td>Animações CSS pré-definidas importadas no globals.css.</td></tr>
+  </table>
+
+  <div class="divider"></div>
+  <div class="st">Estrutura de roteamento Next.js</div>
+  <p class="bd">Next.js usa o sistema de arquivos como roteador. Cada pasta dentro de <code>src/app/</code> representa uma rota. Um arquivo <code>page.tsx</code> nessa pasta é o componente renderizado naquela URL.</p>
+
+  <div class="cb">
+    <div class="ch"><span class="cl">estrutura</span><span class="cf">src/app/</span></div>
+    <div class="cd"><code>app/
+├── layout.tsx   <span class="cm"># envolve TODA a aplicação — define &lt;html&gt;, &lt;body&gt;, metadados</span>
+├── page.tsx     <span class="cm"># rota "/" — renderizada em localhost:3000</span>
+└── globals.css  <span class="cm"># estilos e variáveis CSS globais</span></code></div>
+  </div>
+
+  <div class="cb">
+    <div class="ch"><span class="cl">typescript</span><span class="cf">layout.tsx</span></div>
+    <div class="cd"><code><span class="kw">export const</span> <span class="nm">metadata</span>: <span class="nc">Metadata</span> <span class="op">=</span> {
+  <span class="nm">title</span>: <span class="st2">"Quick Mail"</span>,
+  <span class="nm">description</span>: <span class="st2">"Intelligent email agent powered by Claude"</span>,
+}
+
+<span class="kw">export default function</span> <span class="fn">RootLayout</span>({ <span class="nm">children</span> }: { <span class="nm">children</span>: <span class="nc">React.ReactNode</span> }) {
+  <span class="kw">return</span> (
+    <span class="op">&lt;</span><span class="nc">html</span> <span class="nm">lang</span><span class="op">=</span><span class="st2">"pt-BR"</span><span class="op">&gt;</span>
+      <span class="op">&lt;</span><span class="nc">body</span> <span class="nm">className</span><span class="op">=</span><span class="st2">"antialiased"</span><span class="op">&gt;</span>{<span class="nm">children</span>}<span class="op">&lt;/</span><span class="nc">body</span><span class="op">&gt;</span>
+    <span class="op">&lt;/</span><span class="nc">html</span><span class="op">&gt;</span>
+  );
+}</code></div>
+  </div>
+
+  <p class="bd"><code>antialiased</code> é uma classe Tailwind que aplica suavização de fonte. O <code>layout.tsx</code> é renderizado uma vez e envolve todas as páginas — qualquer mudança aqui afeta toda a aplicação.</p>
+
+  <div class="ann ab"><span class="ai">💡</span><span><strong>O que é <code>cn()</code> em utils.ts?</strong> Uma função que combina <code>clsx</code> (condicional de classes) com <code>tailwind-merge</code> (resolve conflitos de classes Tailwind). Permite <code>cn("base", condicao && "extra")</code> sem conflitos. Padrão em todo projeto que usa shadcn/ui.</span></div>
+</div>
+
+<!-- PAGE.TSX -->
+<div class="page" id="page-page">
+  <div class="hero">
+    <div class="hero-ey">Frontend — interface principal</div>
+    <h1><em>page</em>.tsx</h1>
+    <p>O componente React que renderiza toda a UI. Gerencia 10 estados distintos, faz polling da API, e implementa UX sofisticada de cards com liquid glass design.</p>
+  </div>
+
+  <div class="st">Interface TypeScript dos dados</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">typescript</span><span class="cf">page.tsx</span></div>
+    <div class="cd"><code><span class="kw">interface</span> <span class="nc">Email</span> {
+  <span class="nm">id</span>: <span class="ts">string</span>;
+  <span class="nm">assunto</span>: <span class="ts">string</span>;
+  <span class="nm">remetente</span>: <span class="ts">string</span>;
+  <span class="nm">timestamp</span>: <span class="ts">string</span>;
+  <span class="nm">prioridade</span>: <span class="st2">'alta'</span> <span class="op">|</span> <span class="st2">'média'</span> <span class="op">|</span> <span class="st2">'baixa'</span>;
+  <span class="nm">internalDate</span>: <span class="ts">number</span>;
+  <span class="nm">categoria</span>: <span class="ts">string</span>;
+  <span class="nm">acao_sugerida</span>: <span class="ts">string</span>;
+  <span class="nm">resposta_sugerida</span>: <span class="ts">string</span> <span class="op">|</span> <span class="nb">null</span>;
+  <span class="nm">trecho</span>: <span class="ts">string</span>;
+}</code></div>
+  </div>
+
+  <p class="bd">A interface TypeScript espelha exatamente a estrutura JSON que a API retorna. Se a API mudar e um campo sumir, o TypeScript aponta o erro em tempo de compilação — antes de rodar o código.</p>
+
+  <div class="divider"></div>
+  <div class="st">Estado da aplicação</div>
+  <table class="tb2">
+    <tr><th>Estado</th><th>Tipo</th><th>O que controla</th></tr>
+    <tr><td>emails</td><td>Email[]</td><td>Lista de emails vinda da API. Atualizada pelo polling periódico.</td></tr>
+    <tr><td>running</td><td>boolean</td><td>Se o agente está em loop. Controla visualmente os botões e o polling.</td></tr>
+    <tr><td>escopo</td><td>'hora'|'dia'|'semana'|''</td><td>Período selecionado. Vazio bloqueia o início com mensagem de erro.</td></tr>
+    <tr><td>refreshSecs</td><td>number</td><td>Intervalo de atualização em segundos. 0 bloqueia o início.</td></tr>
+    <tr><td>expanded</td><td>string|null</td><td>ID do card atualmente expandido. Só um por vez.</td></tr>
+    <tr><td>dismissed</td><td>Set&lt;string&gt;</td><td>IDs dispensados. Filtrados na renderização — não removidos da lista.</td></tr>
+    <tr><td>dismissing</td><td>Set&lt;string&gt;</td><td>IDs em animação de saída. Permite CSS aplicar transição antes de sumir.</td></tr>
+    <tr><td>sortBy</td><td>'data'|'prioridade'</td><td>Critério de ordenação dos cards.</td></tr>
+    <tr><td>generatingReply</td><td>Set&lt;string&gt;</td><td>IDs com geração de resposta em progresso. Mostra spinner no botão.</td></tr>
+    <tr><td>localReplies</td><td>Record&lt;string,string&gt;</td><td>Respostas geradas, indexadas por ID. Só no frontend — não voltam ao servidor.</td></tr>
+    <tr><td>awaitingReply</td><td>Set&lt;string&gt;</td><td>IDs onde o usuário abriu o Gmail. Monitorados para dispensar ao enviar.</td></tr>
+  </table>
+
+  <div class="divider"></div>
+  <div class="st">Comunicação com a API</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">typescript</span><span class="cf">page.tsx</span></div>
+    <div class="cd"><code><span class="kw">const</span> <span class="nm">API</span> <span class="op">=</span> <span class="st2">'http://localhost:8000'</span>;
+
+<span class="cm">// useCallback evita recriar a função a cada render</span>
+<span class="kw">const</span> <span class="nm">fetchEmails</span> <span class="op">=</span> <span class="fn">useCallback</span>(<span class="kw">async</span> () <span class="op">=&gt;</span> {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> <span class="nm">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st2">`${API}/api/emails`</span>);
+    <span class="kw">if</span> (<span class="op">!</span><span class="nm">res</span>.<span class="nm">ok</span>) <span class="kw">throw new</span> <span class="nc">Error</span>();
+    <span class="fn">setEmails</span>(<span class="kw">await</span> <span class="nm">res</span>.<span class="fn">json</span>());
+    <span class="fn">setConnected</span>(<span class="nb">true</span>);
+  } <span class="kw">catch</span> { <span class="fn">setConnected</span>(<span class="nb">false</span>); }
+}, []);
+
+<span class="cm">// Polling: atualiza emails a cada intervalo quando rodando</span>
+<span class="fn">useEffect</span>(() <span class="op">=&gt;</span> {
+  <span class="kw">if</span> (<span class="op">!</span><span class="nm">running</span>) <span class="kw">return</span>;
+  <span class="kw">const</span> <span class="nm">id</span> <span class="op">=</span> <span class="nm">window</span>.<span class="fn">setInterval</span>(<span class="nm">fetchEmails</span>, <span class="nm">refreshSecs</span> <span class="op">*</span> <span class="nb">1000</span>);
+  <span class="kw">return</span> () <span class="op">=&gt;</span> <span class="nm">window</span>.<span class="fn">clearInterval</span>(<span class="nm">id</span>);  <span class="cm">// cleanup ao parar</span>
+}, [<span class="nm">running</span>, <span class="nm">refreshSecs</span>, <span class="nm">fetchEmails</span>]);</code></div>
+  </div>
+
+  <div class="ann ab"><span class="ai">💡</span><span><strong>Por que <code>useCallback</code>?</strong> Sem ele, <code>fetchEmails</code> seria uma nova função a cada render, fazendo o <code>useEffect</code> disparar infinitamente (já que a função está nas dependências). <code>useCallback</code> memoriza a função entre renders.</span></div>
+
+  <div class="divider"></div>
+  <div class="st">Abertura direta no Gmail</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">typescript</span><span class="cf">page.tsx</span></div>
+    <div class="cd"><code><span class="kw">const</span> <span class="nm">openInGmail</span> <span class="op">=</span> (<span class="nm">email</span>: <span class="nc">Email</span>, <span class="nm">reply</span>: <span class="ts">string</span>) <span class="op">=&gt;</span> {
+  <span class="kw">const</span> <span class="nm">to</span> <span class="op">=</span> <span class="fn">extractEmail</span>(<span class="nm">email</span>.<span class="nm">remetente</span>);   <span class="cm">// extrai email de "Nome &lt;email&gt;"</span>
+  <span class="kw">const</span> <span class="nm">su</span> <span class="op">=</span> <span class="fn">encodeURIComponent</span>(<span class="st2">`Re: ${email.assunto}`</span>);
+  <span class="kw">const</span> <span class="nm">body</span> <span class="op">=</span> <span class="fn">encodeURIComponent</span>(<span class="nm">reply</span>);
+  <span class="nm">window</span>.<span class="fn">open</span>(
+    <span class="st2">`https://mail.google.com/mail/?view=cm&to=${to}&su=${su}&body=${body}`</span>,
+    <span class="st2">'_blank'</span>
+  );
+  <span class="fn">setAwaitingReply</span>(<span class="nm">prev</span> <span class="op">=&gt;</span> <span class="kw">new</span> <span class="nc">Set</span>(<span class="nm">prev</span>).<span class="fn">add</span>(<span class="nm">email</span>.<span class="nm">id</span>)); <span class="cm">// começa monitorar</span>
+};</code></div>
+  </div>
+
+  <p class="bd">A URL <code>mail.google.com/?view=cm</code> abre o Gmail no modo compose com campos pré-preenchidos. Após abrir, o frontend começa a verificar periodicamente se a thread recebeu um SENT — quando sim, o card é dispensado automaticamente.</p>
+
+  <div class="divider"></div>
+  <div class="st">Design visual — liquid glass</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">typescript</span><span class="cf">page.tsx — constantes de estilo</span></div>
+    <div class="cd"><code><span class="cm">// Card principal com efeito vidro sobre o shader</span>
+<span class="kw">const</span> <span class="nm">glass</span> <span class="op">=</span>
+  <span class="st2">'bg-white/[0.13] backdrop-blur-[44px] shadow-[0_8px_40px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.25)]'</span>;
+
+<span class="cm">// Dots de prioridade com glow colorido</span>
+<span class="kw">const</span> <span class="nm">PRIORITY_DOT</span> <span class="op">=</span> {
+  <span class="nm">alta</span>: <span class="st2">'bg-red-400 shadow-[0_0_7px_rgba(248,113,113,0.9)]'</span>,
+  <span class="nm">média</span>: <span class="st2">'bg-amber-400 shadow-[0_0_7px_rgba(251,191,36,0.9)]'</span>,
+  <span class="nm">baixa</span>: <span class="st2">'bg-emerald-400 shadow-[0_0_7px_rgba(52,211,153,0.9)]'</span>,
+};</code></div>
+  </div>
+
+  <p class="bd"><code>backdrop-blur-[44px]</code> desfoca o shader WebGL atrás do card, criando o efeito de vidro fosco. <code>bg-white/[0.13]</code> adiciona 13% de branco — transparência suficiente para o blur ser visível. Sem o shader animado por baixo, o efeito não teria impacto visual.</p>
+</div>
+
+<!-- SHADER -->
+<div class="page" id="page-shader">
+  <div class="hero">
+    <div class="hero-ey">Frontend — componente visual</div>
+    <h1><em>animated-shader</em>-background</h1>
+    <p>Fundo animado em aurora borealis renderizado na GPU via Three.js e GLSL. Zero impacto no thread JavaScript — roda completamente no hardware gráfico.</p>
+  </div>
+
+  <div class="st">O que é um shader GLSL</div>
+  <p class="bd">GLSL (OpenGL Shading Language) é uma linguagem de programação que roda na GPU. Um fragment shader recebe a posição de cada pixel e o tempo, e retorna a cor daquele pixel. Como a GPU processa milhares de pixels em paralelo, o resultado é animação fluida sem custo para o JavaScript.</p>
+
+  <div class="st">Configuração Three.js</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">typescript</span><span class="cf">animated-shader-background.tsx</span></div>
+    <div class="cd"><code><span class="kw">const</span> <span class="nm">material</span> <span class="op">=</span> <span class="kw">new</span> <span class="nc">THREE</span>.<span class="nc">ShaderMaterial</span>({
+  <span class="nm">uniforms</span>: {
+    <span class="nm">iTime</span>:       { <span class="nm">value</span>: <span class="nb">0</span> },   <span class="cm">// tempo — incrementado a cada frame</span>
+    <span class="nm">iResolution</span>: { <span class="nm">value</span>: <span class="kw">new</span> <span class="nc">THREE</span>.<span class="nc">Vector2</span>(<span class="nm">w</span>, <span class="nm">h</span>) },  <span class="cm">// tamanho da tela</span>
+  },
+  <span class="nm">vertexShader</span>:   <span class="st2">`void main() { gl_Position = vec4(position, 1.0); }`</span>,
+  <span class="nm">fragmentShader</span>: <span class="st2">`...`</span>,  <span class="cm">// lógica da aurora borealis</span>
+});
+
+<span class="kw">const</span> <span class="nm">geometry</span> <span class="op">=</span> <span class="kw">new</span> <span class="nc">THREE</span>.<span class="nc">PlaneGeometry</span>(<span class="nb">2</span>, <span class="nb">2</span>); <span class="cm">// plano que cobre a tela inteira</span>
+<span class="kw">const</span> <span class="nm">mesh</span> <span class="op">=</span> <span class="kw">new</span> <span class="nc">THREE</span>.<span class="nc">Mesh</span>(<span class="nm">geometry</span>, <span class="nm">material</span>);
+<span class="nm">scene</span>.<span class="fn">add</span>(<span class="nm">mesh</span>);</code></div>
+  </div>
+
+  <div class="st">O loop de animação</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">typescript</span></div>
+    <div class="cd"><code><span class="kw">const</span> <span class="nm">animate</span> <span class="op">=</span> () <span class="op">=&gt;</span> {
+  <span class="nm">material</span>.<span class="nm">uniforms</span>.<span class="nm">iTime</span>.<span class="nm">value</span> <span class="op">+=</span> <span class="nb">0.01</span>;     <span class="cm">// avança o tempo</span>
+  <span class="nm">renderer</span>.<span class="fn">render</span>(<span class="nm">scene</span>, <span class="nm">camera</span>);              <span class="cm">// renderiza o frame na GPU</span>
+  <span class="nm">animationId</span> <span class="op">=</span> <span class="fn">requestAnimationFrame</span>(<span class="nm">animate</span>); <span class="cm">// agenda o próximo frame</span>
+};</code></div>
+  </div>
+
+  <p class="bd"><code>requestAnimationFrame</code> é a forma correta de criar loops de animação no browser — sincroniza com o refresh rate da tela (geralmente 60fps), pausa automaticamente quando a aba fica em background, e não bloqueia o thread principal.</p>
+
+  <div class="st">A lógica visual — aurora borealis</div>
+  <p class="bd">O shader usa Fractal Brownian Motion (fbm): camadas de ruído acumuladas com amplitudes e frequências diferentes, criando movimento orgânico e não repetitivo. A cada frame, <code>iTime</code> incrementa e o ruído se move, animando a aurora. O efeito de shake sutil (<code>vec2 shake</code>) adiciona microtremor.</p>
+
+  <div class="ann ay"><span class="ai">🎨</span><span>O cleanup é importante: <code>renderer.dispose()</code> e <code>cancelAnimationFrame(animationId)</code> no return do useEffect liberam memória e param a GPU quando o componente é desmontado — evitando vazamentos de memória em navegação entre páginas.</span></div>
+</div>
+
+<!-- GLOBALS -->
+<div class="page" id="page-globals">
+  <div class="hero">
+    <div class="hero-ey">Frontend — estilos globais</div>
+    <h1><em>globals</em>.css</h1>
+    <p>Tokens CSS, reset global, estilos de select e a animação de dismiss dos cards.</p>
+  </div>
+
+  <div class="st">A animação de dismiss</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">css</span><span class="cf">globals.css</span></div>
+    <div class="cd"><code><span class="nm">@keyframes</span> dismiss-right {
+  <span class="nb">0%</span>   { opacity: 1; transform: translateX(0);    max-height: 300px; margin-bottom: 0.5rem; }
+  <span class="nb">60%</span>  { opacity: 0; transform: translateX(80px); max-height: 300px; margin-bottom: 0.5rem; }
+  <span class="nb">100%</span> { opacity: 0; transform: translateX(80px); max-height: 0;     margin-bottom: 0; }
+}
+
+<span class="nc">.dismissing</span> {
+  animation: dismiss-right 0.38s ease-out forwards;
+  pointer-events: none;
+  overflow: hidden;
+}</code></div>
+  </div>
+
+  <p class="bd">A animação tem três fases: desliza para a direita enquanto fica transparente, depois colapsa a altura para zero — fechando o espaço sem salto brusco. <code>max-height: 0</code> combinado com <code>overflow: hidden</code> é a técnica padrão para colapsar elementos com animação CSS.</p>
+
+  <p class="bd">No React, a classe <code>dismissing</code> é aplicada ao card quando o usuário clica em dispensar. Após 400ms (ligeiramente antes da animação terminar), o ID é adicionado ao set <code>dismissed</code> — removendo o card da renderização.</p>
+
+  <div class="st">Estilo dos selects</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">css</span></div>
+    <div class="cd"><code>select option {
+  background-color: #1a1a2a;
+  color: rgba(255, 255, 255, 0.9);
+}</code></div>
+  </div>
+
+  <p class="bd">Os dropdowns nativos do browser ignoram classes Tailwind nos <code>&lt;option&gt;</code>. Este CSS força o background escuro e texto claro no dropdown, mantendo a consistência visual com o tema escuro da interface.</p>
+</div>
+
+<!-- OAUTH -->
+<div class="page" id="page-oauth">
+  <div class="hero">
+    <div class="hero-ey">Conceito</div>
+    <h1><em>OAuth2</em> e Gmail API</h1>
+    <p>O protocolo de autorização que permite acesso ao Gmail sem usar senha do usuário, e como a Gmail API organiza os dados.</p>
+  </div>
+
+  <div class="st">O problema que OAuth2 resolve</div>
+  <p class="bd">Antes do OAuth2, para um programa acessar sua conta em outro serviço, você precisava dar sua senha. Isso é inseguro: o programa poderia fazer qualquer coisa com sua conta, e se comprometido, sua senha estaria exposta.</p>
+
+  <div class="flow">
+    <div class="fs ho"><div class="fl">app pede</div><div class="fn2">permissão</div></div>
+    <div class="fa">→</div>
+    <div class="fs"><div class="fl">Google autentica</div><div class="fn2">o usuário</div></div>
+    <div class="fa">→</div>
+    <div class="fs hg"><div class="fl">Google emite</div><div class="fn2">token limitado</div></div>
+    <div class="fa">→</div>
+    <div class="fs hc"><div class="fl">app usa</div><div class="fn2">o token</div></div>
+  </div>
+
+  <table class="tb2">
+    <tr><th>Arquivo</th><th>Analogia</th><th>Conteúdo</th></tr>
+    <tr><td>credentials.json</td><td>RG do programa</td><td>Client ID e Client Secret que identificam sua aplicação para o Google. Baixado do Google Cloud Console uma vez.</td></tr>
+    <tr><td>token.json</td><td>Crachá de acesso</td><td>Access token + refresh token gerados após o usuário autorizar. O access token expira, o refresh token permite renovação automática.</td></tr>
+    <tr><td>SCOPES</td><td>Lista de permissões</td><td>Declara exatamente o que o programa pode fazer. gmail.readonly = só leitura da caixa de entrada.</td></tr>
+  </table>
+
+  <div class="divider"></div>
+  <div class="st">Threads vs Mensagens na Gmail API</div>
+  <p class="bd">O Gmail organiza emails em duas estruturas: <strong>mensagens</strong> (emails individuais) e <strong>threads</strong> (conversas completas com várias mensagens). O Quick Mail trabalha com threads — cada card representa uma conversa, não um email isolado.</p>
+
+  <table class="tb2">
+    <tr><th>Endpoint</th><th>O que retorna</th></tr>
+    <tr><td>users.threads.list</td><td>Lista de IDs de threads. Aceita query <code>after:EPOCH</code> para filtrar por data.</td></tr>
+    <tr><td>users.threads.get</td><td>Thread completa com todas as mensagens, headers e labels.</td></tr>
+    <tr><td>messages[-1].labelIds</td><td>Labels da última mensagem. <code>'SENT'</code> indica que o usuário respondeu por último.</td></tr>
+    <tr><td>messages[0].snippet</td><td>Preview do primeiro email (160 chars). Usado como trecho na análise.</td></tr>
+    <tr><td>internalDate</td><td>Timestamp Unix em milissegundos da mensagem. Usado para ordenar por data no frontend.</td></tr>
+  </table>
+</div>
+
+<!-- FASTAPI CONCEITO -->
+<div class="page" id="page-fastapi-conceito">
+  <div class="hero">
+    <div class="hero-ey">Conceito</div>
+    <h1><em>FastAPI</em> e REST</h1>
+    <p>O padrão de comunicação entre o frontend JavaScript e o backend Python. Entender isso é fundamental para qualquer desenvolvimento web moderno.</p>
+  </div>
+
+  <div class="st">O que é uma API REST</div>
+  <p class="bd">REST (Representational State Transfer) é um padrão de comunicação via HTTP. O cliente (frontend) faz requisições para URLs com métodos (GET, POST) e recebe respostas em JSON. Cada URL representa um recurso ou ação.</p>
+
+  <table class="tb2">
+    <tr><th>Método</th><th>Uso</th><th>Tem body?</th></tr>
+    <tr><td>GET</td><td>Buscar dados sem modificar nada no servidor</td><td>Não</td></tr>
+    <tr><td>POST</td><td>Enviar dados, acionar ações, criar recursos</td><td>Sim (JSON)</td></tr>
+  </table>
+
+  <div class="divider"></div>
+  <div class="st">Códigos de status HTTP</div>
+  <table class="tb2">
+    <tr><th>Código</th><th>Significado</th><th>Quando aparece</th></tr>
+    <tr><td>200 OK</td><td>Sucesso</td><td>Resposta normal de qualquer endpoint</td></tr>
+    <tr><td>404 Not Found</td><td>Recurso não encontrado</td><td>Email ID inválido em /resposta</td></tr>
+    <tr><td>422 Unprocessable</td><td>Dados inválidos</td><td>Pydantic rejeitou parâmetros fora do range</td></tr>
+    <tr><td>500 Internal Error</td><td>Erro no servidor</td><td>Exception não tratada no agente</td></tr>
+  </table>
+
+  <div class="ann ab"><span class="ai">💡</span><span>O FastAPI gera documentação interativa em <code>http://localhost:8000/docs</code> automaticamente enquanto o servidor está rodando. Você pode testar todos os endpoints com formulário diretamente no browser.</span></div>
+</div>
+
+<!-- THREADING CONCEITO -->
+<div class="page" id="page-threading-conceito">
+  <div class="hero">
+    <div class="hero-ey">Conceito</div>
+    <h1>Processos e <em>threads</em></h1>
+    <p>O sistema roda três processos independentes com threads internas. Entender essa estrutura é essencial para depurar e expandir o projeto.</p>
+  </div>
+
+  <div class="st">Processo vs Thread</div>
+  <table class="tb2">
+    <tr><th>Conceito</th><th>O que é</th><th>Memória</th></tr>
+    <tr><td>Processo</td><td>Programa independente gerenciado pelo SO</td><td>Separada — processos não compartilham</td></tr>
+    <tr><td>Thread</td><td>Linha de execução dentro de um processo</td><td>Compartilhada — threads do mesmo processo compartilham</td></tr>
+  </table>
+
+  <div class="arch">
+    <div class="ar">
+      <div class="acol"><div class="abox abo">dashboard.py</div><div class="alb">processo pai — inicia tudo</div></div>
+    </div>
+    <div class="ar" style="margin-top:16px">
+      <div class="acol" style="gap:6px">
+        <div class="abox abl">processo: uvicorn (api.py)</div>
+        <div class="abox abc">processo: npm dev (ui/)</div>
+      </div>
+    </div>
+    <div class="ar" style="margin-top:16px">
+      <div class="acol"><div class="abox abl" style="font-size:11px">thread: requests HTTP</div></div>
+      <div style="width:16px; text-align:center; color:var(--text3); font-size:12px">+</div>
+      <div class="acol"><div class="abox abg" style="font-size:11px">thread: loop_agente()</div></div>
+    </div>
+    <div class="ar"><div class="alb" style="margin:4px 0 0">ambas as threads compartilham historico[] e _ids_processados</div></div>
+  </div>
+
+  <div class="ann ao"><span class="ai">⚠</span><span><strong>Estado compartilhado entre threads</strong>: <code>historico</code> e <code>_ids_processados</code> são variáveis globais acessadas pela thread do loop e pela thread que responde requisições HTTP. Em produção, isso exigiria locks ou um banco de dados. Para este projeto, funciona bem pois o volume é baixo.</span></div>
+
+  <div class="ann ap"><span class="ai">🔮</span><span><strong>Por que <code>daemon=True</code> na thread do agente?</strong> Uma thread daemon morre automaticamente quando o processo principal encerra. Sem isso, o uvicorn poderia terminar mas a thread do loop continuaria rodando invisível, impedindo o processo de fechar completamente.</span></div>
+</div>
+
+<!-- PROMPTS CONCEITO -->
+<div class="page" id="page-prompts-conceito">
+  <div class="hero">
+    <div class="hero-ey">Conceito</div>
+    <h1>Engenharia de <em>prompt</em></h1>
+    <p>Dois prompts especializados para tarefas distintas — como foram construídos e por que as decisões de design importam.</p>
+  </div>
+
+  <div class="st">Prompt 1 — Classificação</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">prompt</span><span class="cf">analisar_email()</span></div>
+    <div class="cd"><code>Analise este email e responda em JSON com exatamente este formato:
+{
+  "prioridade": "alta / média / baixa",
+  "categoria": "trabalho / financeiro / pessoal / spam / outro",
+  "acao_sugerida": "uma frase curta com o que fazer"
+}
+
+Email:
+De: {remetente}
+Assunto: {assunto}
+Trecho: {trecho}</code></div>
+  </div>
+
+  <table class="tb2">
+    <tr><th>Decisão de design</th><th>Por que importa</th></tr>
+    <tr><td>Instrução antes dos dados</td><td>Modelos seguem melhor instruções quando elas precedem o conteúdo a ser processado.</td></tr>
+    <tr><td>Formato JSON explícito com exemplo</td><td>Mostrar a estrutura é mais eficaz que descrever em palavras. O modelo copia o padrão fornecido.</td></tr>
+    <tr><td>Valores enumerados</td><td>"alta / média / baixa" restringe opções. Sem isso, o modelo poderia retornar "urgente", "crítico", "importante" — impossível de parsear previsivelmente.</td></tr>
+    <tr><td>Sem "resposta_sugerida"</td><td>Gerada por demanda em função separada. A maioria dos emails não precisa de resposta — evita chamadas desnecessárias.</td></tr>
+  </table>
+
+  <div class="divider"></div>
+  <div class="st">Prompt 2 — Geração de resposta</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">prompt</span><span class="cf">gerar_resposta()</span></div>
+    <div class="cd"><code>Escreva uma resposta profissional e personalizada para este email.
+Responda apenas com o corpo da resposta, sem linhas de assunto ou saudações genéricas.
+
+De: {remetente}
+Assunto: {assunto}
+Conteúdo: {trecho}
+Ação sugerida: {acao_sugerida}</code></div>
+  </div>
+
+  <table class="tb2">
+    <tr><th>Decisão de design</th><th>Por que importa</th></tr>
+    <tr><td>"sem saudações genéricas"</td><td>Sem essa instrução, o Claude começa com "Prezado [Nome], espero que esteja bem...". A instrução negativa é tão importante quanto a positiva.</td></tr>
+    <tr><td>"apenas com o corpo"</td><td>Evita que o Claude inclua Subject: ou outros campos de email que o usuário não quer.</td></tr>
+    <tr><td>Inclui acao_sugerida do Prompt 1</td><td>A análise do primeiro prompt guia a qualidade do segundo. "Marcar reunião" produz resposta propondo horários. Os dois prompts se complementam.</td></tr>
+    <tr><td>max_tokens=500</td><td>Respostas de email geralmente cabem em ~300 tokens. 500 dá margem sem desperdiçar.</td></tr>
+  </table>
+
+  <div class="sbox">
+    <div class="slabel">Princípio</div>
+    <p>Prompts menores e específicos produzem resultados mais previsíveis, mais rápidos e mais baratos do que um único prompt que tenta fazer tudo de uma vez. Separar classificação de geração de resposta é uma decisão de arquitetura, não apenas de prompt.</p>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<div class="page" id="page-portfolio">
+  <div class="hero">
+    <div class="hero-ey">Portfolio</div>
+    <h1>Como <em>apresentar</em> este projeto</h1>
+    <p>O Quick Mail demonstra domínio de stack completa — backend, API, frontend moderno e integração de LLM. Veja como comunicar isso para recrutadores.</p>
+  </div>
+
+  <div class="st">O que você domina ao construir isto</div>
+  <ul class="cl2">
+    <li>Arquitetura cliente-servidor — separação de backend Python e frontend JavaScript com API REST</li>
+    <li>FastAPI — endpoints REST, validação Pydantic, middleware CORS, tratamento de erros HTTP</li>
+    <li>Next.js 15 + TypeScript — roteamento por arquivo, tipagem estática, interfaces de dados</li>
+    <li>React hooks — useState, useEffect, useCallback, polling com setInterval e cleanup</li>
+    <li>Tailwind CSS 4 — design utilitário, liquid glass com backdrop-blur, Tailwind/4 pipeline</li>
+    <li>Three.js + GLSL — WebGL com fragment shader, uniforms, requestAnimationFrame, cleanup</li>
+    <li>OAuth2 — fluxo completo, token refresh, credentials, scopes declarativos</li>
+    <li>Gmail Threads API — listagem com filtro temporal, leitura de thread, detecção de label SENT</li>
+    <li>Anthropic Claude API — chamadas com Haiku, controle de tokens, parsing de JSON da resposta</li>
+    <li>Engenharia de prompt — dois prompts especializados, valores enumerados, instruções negativas</li>
+    <li>Processos e threads — subprocess.Popen, daemon threads, signal handlers, shutdown limpo</li>
+    <li>Segurança básica — .env, .gitignore, CORS restrito, validação de parâmetros com Pydantic</li>
+  </ul>
+
+  <div class="divider"></div>
+  <div class="st">Descrição para currículo (inglês)</div>
+  <div class="cb">
+    <div class="ch"><span class="cl">resume — bullet points</span></div>
+    <div class="cd"><code>Quick Mail — AI Email Agent  |  Personal Project
+
+Full-stack AI application that reads Gmail threads, classifies by
+priority using Claude AI, and generates professional reply drafts.
+
+• Built REST API with FastAPI (Python) serving a Next.js 15 TypeScript
+  frontend — production-grade client-server architecture
+• Integrated Gmail Threads API with epoch-based temporal filtering and
+  automatic skip of already-replied conversations (SENT label detection)
+• Designed two-stage LLM pipeline: fast classification with Claude Haiku
+  (JSON output with enum constraints), on-demand reply generation to
+  minimize API cost
+• Implemented WebGL animated background using Three.js with custom
+  GLSL fragment shader (Fractal Brownian Motion aurora effect)
+• Engineered liquid glass UI with Tailwind CSS backdrop-blur and
+  auto-dismiss animation on reply detection
+• Orchestrated multi-process startup (uvicorn + npm dev) with SIGINT
+  handler for graceful shutdown of both servers
+
+Stack: Python · FastAPI · Pydantic · Anthropic Claude Haiku · Gmail API
+       Next.js 15 · TypeScript · React 19 · Tailwind CSS 4 · Three.js</code></div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="st">Respostas para entrevistas</div>
+  <div class="card"><div class="card-t">Pergunta: "Me explique a arquitetura"</div><p>Backend FastAPI em Python cuida de toda lógica e acesso às APIs externas. Frontend Next.js em TypeScript cuida da interface. Uma API REST na porta 8000 conecta os dois. Um orquestrador Python sobe ambos como subprocessos e garante shutdown limpo.</p></div>
+  <div class="card"><div class="card-t">Pergunta: "Como otimizou custo da API do Claude?"</div><p>Duas decisões: usei Haiku em vez de Sonnet — mesma família, fração do custo, suficiente para classificação simples. E separei geração de resposta para ser sob demanda — a maioria dos emails não precisa de resposta, então a chamada à API só acontece quando o usuário pede.</p></div>
+  <div class="card"><div class="card-t">Pergunta: "O que faria diferente para produção?"</div><p>Banco de dados persistente (SQLite ou PostgreSQL) em vez de variáveis globais em memória. Autenticação na API para múltiplos usuários. Rate limiting para cotas da Gmail API. Testes unitários para cada módulo. Deploy separado do frontend (Vercel) e backend (Railway ou Fly.io).</p></div>
+  <div class="card"><div class="card-t">Pergunta: "Me explique o efeito visual do fundo"</div><p>Three.js cria um plano 2D cobrindo a tela. Um ShaderMaterial com fragment shader GLSL calcula a cor de cada pixel na GPU usando Fractal Brownian Motion — ruído acumulado em camadas simulando movimento orgânico. Os cards usam backdrop-blur do CSS sobre o shader para o efeito de vidro fosco.</p></div>
+</div>
+
+</main>
+
+<script>
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  document.getElementById('sb').classList.remove('open');
+  window.scrollTo(0, 0);
+}
+function toggleSB() {
+  document.getElementById('sb').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  const s = document.getElementById('sb');
+  const h = document.querySelector('.hamburger');
+  if (s && h && !s.contains(e.target) && !h.contains(e.target)) s.classList.remove('open');
+});
+</script>
+</body>
+</html>
