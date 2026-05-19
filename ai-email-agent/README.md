@@ -7,7 +7,7 @@ classifies emails by priority, and suggests responses using Claude AI.
 - Gmail OAuth2 authentication
 - Automatic email classification (high / medium / low priority)
 - Category detection (work, financial, personal, spam)
-- AI-generated reply drafts via Claude Sonnet
+- AI-generated reply drafts via Claude Haiku
 - Real-time dashboard with auto-refresh loop
 
 ## Tech Stack
