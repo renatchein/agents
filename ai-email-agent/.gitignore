@@ -3,3 +3,8 @@ token.json
 credentials.json
 .venv/
 __pycache__/
+*.pyc
+ui/node_modules/
+ui/.next/
+ui/.env.local
+rejects/

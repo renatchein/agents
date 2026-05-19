@@ -1,85 +1,58 @@
-import streamlit as st
-import agente
+import subprocess
+import sys
+import os
 import time
+import webbrowser
+import signal
 
-st.set_page_config(page_title="AI Email Agent", page_icon="📬", layout="wide")
+BASE = os.path.dirname(os.path.abspath(__file__))
+UI_DIR = os.path.join(BASE, "ui")
 
-st.title("📬 AI Email Agent")
+npm_cmd = "npm.cmd" if sys.platform == "win32" else "npm"
 
-if "historico" not in st.session_state:
-    st.session_state.historico = []
 
-if "rodando" not in st.session_state:
-    st.session_state.rodando = False
+def main():
+    print("🚀 Iniciando AI Email Agent...")
 
-col1, col2, col3 = st.columns([2, 1, 1])
-
-with col1:
-    intervalo = st.slider("Verificar a cada (segundos)", 30, 300, 60, step=30)
-
-with col2:
-    if st.button("▶ Iniciar Agente", use_container_width=True):
-        st.session_state.rodando = True
-
-with col3:
-    if st.button("⏹ Parar Agente", use_container_width=True):
-        st.session_state.rodando = False
-
-status = "🟢 Rodando" if st.session_state.rodando else "🔴 Parado"
-st.caption(f"Status: {status} — {len(st.session_state.historico)} emails processados")
-
-st.divider()
-
-if st.session_state.rodando:
-    with st.spinner("Buscando e analisando emails..."):
-        novos = agente.processar_emails(quantidade=5)
-        st.session_state.historico = agente.historico
-        if novos > 0:
-            st.success(f"{novos} novo(s) email(s) processado(s)!")
-        else:
-            st.info("Nenhum email novo encontrado.")
-
-cores_prioridade = {"alta": "🔴", "média": "🟡", "baixa": "🟢"}
-cores_categoria = {
-    "trabalho": "🔵",
-    "financeiro": "💰",
-    "pessoal": "👤",
-    "spam": "🗑️",
-    "outro": "⚪"
-}
-
-if not st.session_state.historico:
-    st.info("Nenhum email processado ainda. Clique em Iniciar Agente.")
-else:
-    emails_ordenados = sorted(
-        st.session_state.historico,
-        key=lambda x: ["alta", "média", "baixa"].index(x.get("prioridade", "baixa"))
+    api_proc = subprocess.Popen(
+        [
+            sys.executable, "-m", "uvicorn", "api:app",
+            "--host", "0.0.0.0",
+            "--port", "8000",
+            "--reload",
+        ],
+        cwd=BASE,
     )
+    print("✅ API backend rodando em http://localhost:8000")
 
-    for i, email in enumerate(emails_ordenados):
-        prioridade = email.get("prioridade", "baixa")
-        categoria = email.get("categoria", "outro")
-        icone_p = cores_prioridade.get(prioridade, "⚪")
-        icone_c = cores_categoria.get(categoria, "⚪")
+    ui_proc = subprocess.Popen(
+        [npm_cmd, "run", "dev"],
+        cwd=UI_DIR,
+    )
+    print("✅ UI frontend iniciando em http://localhost:3000")
+    print("⏳ Aguardando Next.js compilar...")
 
-        with st.expander(f"{icone_p} {email['assunto']} — {email['remetente']} ({email['timestamp']})"):
-            col_a, col_b = st.columns(2)
+    time.sleep(5)
+    webbrowser.open("http://localhost:3000")
+    print("🌐 Navegador aberto em http://localhost:3000")
+    print("\nPressione Ctrl+C para encerrar.\n")
 
-            with col_a:
-                st.markdown(f"**Prioridade:** {icone_p} {prioridade.capitalize()}")
-                st.markdown(f"**Categoria:** {icone_c} {categoria.capitalize()}")
-                st.markdown(f"**Ação:** {email.get('acao_sugerida', '—')}")
+    def shutdown(_sig, _frame):
+        print("\n⏹ Encerrando...")
+        api_proc.terminate()
+        ui_proc.terminate()
+        sys.exit(0)
 
-            with col_b:
-                resposta = email.get("resposta_sugerida")
-                if resposta:
-                    st.markdown("**Rascunho de resposta:**")
-                    st.text_area("", value=resposta, height=100, key=f"resposta_{i}")
-                else:
-                    st.caption("Nenhuma resposta necessária.")
+    signal.signal(signal.SIGINT, shutdown)
+    if hasattr(signal, "SIGTERM"):
+        signal.signal(signal.SIGTERM, shutdown)
 
-            st.caption(f"Trecho: {email.get('trecho', '')[:150]}")
+    try:
+        api_proc.wait()
+    except KeyboardInterrupt:
+        api_proc.terminate()
+        ui_proc.terminate()
 
-if st.session_state.rodando:
-    time.sleep(intervalo)
-    st.rerun()
+
+if __name__ == "__main__":
+    main()
